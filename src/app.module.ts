@@ -46,6 +46,7 @@ import SpeciesModule from './species/species.module';
     SpeciesModule,
     FilmsModule,
     StarshipsModule,
+    SpeciesModule,
   ],
   controllers: [],
   providers: [],
