@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import config from './config';
 import { enviroments } from './environments';
 import { UsersModule } from './users/users.module';
+import { StarshipsModule } from './starships/starships.module';
 import { FilmsModule } from './films/films.module';
 import SpeciesModule from './species/species.module';
 
@@ -44,6 +45,7 @@ import SpeciesModule from './species/species.module';
     AuthModule,
     SpeciesModule,
     FilmsModule,
+    StarshipsModule,
   ],
   controllers: [],
   providers: [],
