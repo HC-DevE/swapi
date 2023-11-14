@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import config from './config';
 import { enviroments } from './environments';
 import { UsersModule } from './users/users.module';
+import { FilmsModule } from './films/films.module';
+import { StarshipsModule } from './starships/starships.module';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { UsersModule } from './users/users.module';
     }),
     UsersModule,
     AuthModule,
+    FilmsModule,
+    StarshipsModule,
   ],
   controllers: [],
   providers: [],
