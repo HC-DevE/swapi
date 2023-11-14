@@ -8,6 +8,7 @@ import { enviroments } from './environments';
 import { UsersModule } from './users/users.module';
 import { FilmsModule } from './films/films.module';
 import { StarshipsModule } from './starships/starships.module';
+import SpeciesModule from './species/species.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { StarshipsModule } from './starships/starships.module';
     AuthModule,
     FilmsModule,
     StarshipsModule,
+    SpeciesModule,
   ],
   controllers: [],
   providers: [],
