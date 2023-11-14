@@ -10,7 +10,6 @@ import { FilmsModule } from './films/films.module';
 import { StarshipsModule } from './starships/starships.module';
 import { PeoplesModule } from './peoples/peoples.module';
 import SpeciesModule from './species/species.module';
-import { PeoplesModule } from './peoples/peoples.module';
 
 @Module({
   imports: [
@@ -49,7 +48,6 @@ import { PeoplesModule } from './peoples/peoples.module';
     StarshipsModule,
     PeoplesModule,
     SpeciesModule,
-    PeoplesModule,
   ],
   controllers: [],
   providers: [],
