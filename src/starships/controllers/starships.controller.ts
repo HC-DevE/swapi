@@ -40,7 +40,7 @@ export class StarshipsController {
     status: 200,
     type: [DefaultStarshipColumnsResponse], //or only the column without the array
   })
-  //   @Public() // makes the endpoint accessible to all
+  // @Public() // makes the endpoint accessible to all
   @Get()
   findAll() {
     return this.starshipsService.findAll();

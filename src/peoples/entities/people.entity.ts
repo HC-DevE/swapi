@@ -1,4 +1,4 @@
-import { People } from 'src/peoples/entities/people.entity';
+import { Film } from 'src/films/entities/film.entity';
 import { Starship } from 'src/starships/entities/starship.entity';
 import {
   Entity,
@@ -9,41 +9,46 @@ import {
 } from 'typeorm';
 // import { ManyToMany, JoinTable, ManyToOne  } from 'typeorm';
 
-// import { Film } from './film.entity'; // Assurez-vous d'importer l'entité Film
 // import { Species } from './species.entity'; // Assurez-vous d'importer l'entité Species
 // import { Vehicle } from './vehicle.entity'; // Assurez-vous d'importer l'entité Vehicle
 // import { Planet } from './planet.entity'; // Assurez-vous d'importer l'entité Planet
 
 @Entity()
-export class Film {
+export class People {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 255 })
-  title: string;
+  name: string;
 
   @Column({ type: 'varchar', length: 255 })
-  episod_id: string;
+  height: string;
 
   @Column({ type: 'varchar', length: 255 })
-  opening_crawl: string;
+  mass: string;
 
   @Column({ type: 'varchar', length: 255 })
-  director: string;
+  hair_color: string;
 
   @Column({ type: 'varchar', length: 255 })
-  producer: string;
+  skin_color: string;
 
   @Column({ type: 'varchar', length: 255 })
-  release_date: string;
+  eye_color: string;
 
-  @ManyToMany(() => People)
-  @JoinTable()
-  characters: People[];
+  @Column({ type: 'varchar', length: 255 })
+  birth_year: string;
 
-  // @ManyToMany(type => Planets, { cascade: true })
+  @Column({ type: 'varchar', length: 255 })
+  gender: string;
+
+  // @ManyToOne(type => Planet)
   // @JoinTable()
-  // planets: Planet[];
+  // homeworld: Planet;
+
+  @ManyToMany(() => Film, { cascade: true })
+  @JoinTable()
+  films: Film[];
 
   // @ManyToMany(type => Species, { cascade: true })
   // @JoinTable()

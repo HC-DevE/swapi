@@ -40,7 +40,7 @@ export class FilmsController {
     status: 200,
     type: [DefaultFilmColumnsResponse], //or only the column without the array
   })
-  //   @Public() // makes the endpoint accessible to all
+  // @Public() // makes the endpoint accessible to all
   @Get()
   findAll() {
     return this.filmsService.findAll();
@@ -51,7 +51,7 @@ export class FilmsController {
     status: 200,
     type: DefaultFilmColumnsResponse,
   })
-  //   @Public() // makes the endpoint accessible to all
+  // @Public() // makes the endpoint accessible to all
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.filmsService.findOneById(+id);
@@ -62,7 +62,7 @@ export class FilmsController {
     status: 200,
     type: DefaultFilmColumnsResponse,
   })
-  //   @Public() // makes the endpoint accessible to all
+  // @Public() // makes the endpoint accessible to all
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFilmDto: CreateFilmDto) {
     return this.filmsService.update(+id, updateFilmDto);
