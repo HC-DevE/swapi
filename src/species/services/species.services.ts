@@ -15,9 +15,9 @@ export class SpeciesService {
     return this.specieRepository.find();
   }
 
-  async findOne(id: number) {
+  /*async findOne(id: number) {
     return await this.specieRepository.findOne(id);
-  }
+  }*/
 
   async findById(specieId: number) {
     return await this.specieRepository.findOneOrFail(specieId);
