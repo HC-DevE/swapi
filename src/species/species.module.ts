@@ -11,4 +11,4 @@ import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
   providers: [SpeciesService, JwtStrategy],
   exports: [SpeciesService],
 })
-export default class SpeciesModule {}
+export class SpeciesModule {}
