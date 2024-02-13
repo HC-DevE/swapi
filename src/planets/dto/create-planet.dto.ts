@@ -1,63 +1,69 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { Film } from 'src/films/entities/film.entity';
 import { People } from 'src/peoples/entities/people.entity';
 
-export class CreateSpecieDto {
+export class CreatePlanetDto {
   @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   readonly name: string;
 
   @ApiProperty()
   @IsString()
-  readonly classification: string;
+  @IsNotEmpty()
+  readonly diameter: string;
 
   @ApiProperty()
   @IsString()
-  readonly designation: string;
+  @IsNotEmpty()
+  readonly rotation_period: string;
 
   @ApiProperty()
   @IsString()
-  readonly average_height: string;
+  @IsNotEmpty()
+  readonly orbital_period: string;
 
   @ApiProperty()
   @IsString()
-  readonly average_lifespan: string;
+  @IsNotEmpty()
+  readonly gravity: string;
 
   @ApiProperty()
   @IsString()
-  readonly hair_colors: string;
+  @IsNotEmpty()
+  readonly population: string;
 
   @ApiProperty()
   @IsString()
-  readonly skin_colors: string;
+  @IsNotEmpty()
+  readonly climate: string;
 
   @ApiProperty()
   @IsString()
-  readonly eye_colors: string;
+  @IsNotEmpty()
+  readonly terrain: string;
 
   @ApiProperty()
-  @IsNumber()
-  readonly homeworld: string;
-
-  @ApiProperty()
-  @IsNumber()
-  readonly language: string;
+  @IsString()
+  @IsNotEmpty()
+  readonly surface_water: string;
 
   @ApiProperty({ type: () => [Film] })
   films: string[];
 
   @ApiProperty({ type: () => [People] })
-  peoples: string[];
+  residents: string[];
 
   @ApiProperty()
   @IsString()
-  readonly url: string;
+  @IsNotEmpty()
+  url: string;
 }
 
-export class UpdateSpecieDto extends PartialType(CreateSpecieDto) {}
+export class UpdatePlanetDto extends PartialType(CreatePlanetDto) {}
 
-export class DefaultSpecieColumnsResponse extends CreateSpecieDto {
+export class DefaultPlanetColumnsResponse extends CreatePlanetDto {
   @ApiProperty()
   readonly id: number;
 

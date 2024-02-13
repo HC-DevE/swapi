@@ -9,8 +9,9 @@ import { UsersModule } from './users/users.module';
 import { FilmsModule } from './films/films.module';
 import { StarshipsModule } from './starships/starships.module';
 import { PeoplesModule } from './peoples/peoples.module';
-import SpeciesModule from './species/species.module';
+import { SpeciesModule } from './species/species.module';
 import VehiculesModule from './vehicules/vehicules.module';
+import { PlanetsModule } from './planets/planets.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import VehiculesModule from './vehicules/vehicules.module';
     PeoplesModule,
     SpeciesModule,
     VehiculesModule,
+    PlanetsModule,
   ],
   controllers: [],
   providers: [],
