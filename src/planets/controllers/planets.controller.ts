@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/decorators/public.decorator';
+// import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   CreatePlanetDto,
@@ -39,7 +39,7 @@ export class PlanetsController {
     status: 200,
     type: [DefaultPlanetColumnsResponse], //or only the column without the array
   })
-  @Public() // makes the endpoint accessible to all
+  // @Public() // makes the endpoint accessible to all
   @Get()
   findAll() {
     return this.planetsService.findAll();

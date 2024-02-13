@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-// import { Public } from 'src/auth/decorators/public.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   CreateSpecieDto,
@@ -39,7 +39,7 @@ export class SpeciesController {
     status: 200,
     type: [DefaultSpecieColumnsResponse], //or only the column without the array
   })
-  // @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Get()
   findAll() {
     return this.speciesService.findAll();
@@ -73,37 +73,3 @@ export class SpeciesController {
     return this.speciesService.delete(+id);
   }
 }
-
-/*import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SpeciesService } from '../services/species.services';
-//import { Public } from 'src/auth/decorators/public.decorator';
-import { CreateSpecieDto } from '../dto/create-specie.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-
-@ApiTags('species') // put the name of the controller in swagger
-@UseGuards(JwtAuthGuard)
-@Controller('species')
-export class SpeciesController {
-  constructor(private readonly speciesService: SpeciesService) {}
-
-  @ApiOperation({ summary: 'display all species' })
-  @ApiResponse({
-    status: 201,
-  })
-  //@Public() // makes the endpoint accessible to all
-  @Get()
-  findAll() {
-    return this.speciesService.findAll();
-  }
-
-  @ApiOperation({ summary: 'create a new specie' })
-  @ApiResponse({
-    status: 201,
-  })
-  //@Public() // makes the endpoint accessible to all
-  @Post()
-  create(@Body() createSpecieDto: CreateSpecieDto) {
-    return this.speciesService.create(createSpecieDto);
-  }
-}*/
