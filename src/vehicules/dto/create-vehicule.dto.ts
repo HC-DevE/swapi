@@ -8,7 +8,7 @@ import {
   IsUrl,
 } from 'class-validator';
 
-export class CreateVehiculeDto {
+export class CreateVehicleDto {
   @IsNotEmpty()
   @IsString()
   readonly nom: string;
@@ -70,7 +70,7 @@ export class CreateVehiculeDto {
   readonly created: string;
 }
 
-export class DefaultVehiculeColumnsResponse extends CreateVehiculeDto {
+export class DefaultVehicleColumnsResponse extends CreateVehicleDto {
   @ApiProperty()
   readonly id: number;
 

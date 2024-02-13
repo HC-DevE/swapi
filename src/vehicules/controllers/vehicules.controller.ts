@@ -12,69 +12,66 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 // import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
-  CreateVehiculeDto,
-  DefaultVehiculeColumnsResponse,
+  CreateVehicleDto,
+  DefaultVehicleColumnsResponse,
 } from '../dto/create-vehicule.dto';
-import { Vehicule } from '../entities/vehicule.entity';
-import { VehiculesService } from '../services/vehicules.service';
+import { Vehicle } from '../entities/vehicule.entity';
+import { VehiclesService } from '../services/vehicules.service';
 
-@ApiTags('vehicules') // put the name of the controller in swagger
+@ApiTags('vehicles') // put the name of the controller in swagger
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
-@Controller('vehicules')
-export class VehiculesController {
-  constructor(private readonly vehiculesService: VehiculesService) {}
+@Controller('vehicles')
+export class VehiclesController {
+  constructor(private readonly vehiclesService: VehiclesService) {}
 
-  @ApiOperation({ summary: 'create a vehicule' })
+  @ApiOperation({ summary: 'create a vehicle' })
   @ApiResponse({
     status: 201,
-    type: Vehicule,
+    type: Vehicle,
   })
   //   @Public() // makes the endpoint accessible to all
   @Post()
-  create(@Body() createVehiculeDto: CreateVehiculeDto) {
-    return this.vehiculesService.create(createVehiculeDto);
+  create(@Body() createVehicleDto: CreateVehicleDto) {
+    return this.vehiclesService.create(createVehicleDto);
   }
 
-  @ApiOperation({ summary: 'get all vehicules' })
+  @ApiOperation({ summary: 'get all vehicles' })
   @ApiResponse({
     status: 200,
-    type: [DefaultVehiculeColumnsResponse], //or only the column without the array
+    type: [DefaultVehicleColumnsResponse], //or only the column without the array
   })
   // @Public() // makes the endpoint accessible to all
   @Get()
   findAll() {
-    return this.vehiculesService.findAll();
+    return this.vehiclesService.findAll();
   }
 
-  @ApiOperation({ summary: 'get a vehicule by id' })
+  @ApiOperation({ summary: 'get a vehicle by id' })
   @ApiResponse({
     status: 200,
-    type: DefaultVehiculeColumnsResponse,
+    type: DefaultVehicleColumnsResponse,
   })
   //   @Public() // makes the endpoint accessible to all
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.vehiculesService.findOneById(+id);
+    return this.vehiclesService.findOneById(+id);
   }
 
-  @ApiOperation({ summary: 'update a vehicule' })
+  @ApiOperation({ summary: 'update a vehicle' })
   @ApiResponse({
     status: 200,
-    type: DefaultVehiculeColumnsResponse,
+    type: DefaultVehicleColumnsResponse,
   })
   //   @Public() // makes the endpoint accessible to all
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateVehiculeDto: CreateVehiculeDto,
-  ) {
-    return this.vehiculesService.update(+id, updateVehiculeDto);
+  update(@Param('id') id: string, @Body() updateVehicleDto: CreateVehicleDto) {
+    return this.vehiclesService.update(+id, updateVehicleDto);
   }
 
-  //delete a vehicule by id
+  //delete a vehicle by id
   @Delete(':id')
-  @ApiOperation({ summary: 'delete a vehicule' })
+  @ApiOperation({ summary: 'delete a vehicle' })
   remove(@Param('id') id: string) {
-    return this.vehiculesService.delete(+id);
+    return this.vehiclesService.delete(+id);
   }
 }

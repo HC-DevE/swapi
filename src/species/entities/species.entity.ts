@@ -1,9 +1,17 @@
 // species.entity.ts
 
 //import { Planet } from 'src/planets/entities/planets.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Film } from 'src/films/entities/film.entity';
+import { People } from 'src/peoples/entities/people.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity()
+@Entity({ name: 'specie' })
 export class Specie {
   @PrimaryGeneratedColumn()
   id: number;
@@ -39,13 +47,13 @@ export class Specie {
   @Column({ type: 'varchar', length: 255 })
   language: string;
 
-  //@ManyToMany((type) => People, { cascade: true })
-  //@JoinTable()
-  //people: People[];
+  @ManyToMany(() => People, { cascade: true })
+  @JoinTable()
+  people: string[];
 
-  //@ManyToMany((type) => Film, { cascade: true })
-  //@JoinTable()
-  //films: Film[];
+  @ManyToMany(() => Film, { cascade: true })
+  @JoinTable()
+  films: string[];
 
   @Column('text')
   url: string;

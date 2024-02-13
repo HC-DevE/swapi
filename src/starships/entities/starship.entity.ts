@@ -7,16 +7,13 @@ import {
   // JoinTable,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'starship' })
 export class Starship {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
-
-  @Column({ type: 'varchar', length: 255 })
-  model: string;
 
   @Column({ type: 'varchar', length: 255 })
   starship_class: string;

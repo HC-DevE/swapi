@@ -9,16 +9,13 @@ import {
   JoinTable,
 } from 'typeorm';
 
-@Entity()
-export class Vehicule {
+@Entity({ name: 'vehicle' })
+export class Vehicle {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
-
-  @Column({ type: 'varchar', length: 255 })
-  model: string;
 
   @Column({ type: 'varchar', length: 255 })
   vehicle_class: string;
