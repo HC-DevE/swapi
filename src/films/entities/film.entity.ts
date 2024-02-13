@@ -1,4 +1,7 @@
 import { People } from 'src/peoples/entities/people.entity';
+import { Specie } from 'src/species/entities/species.entity';
+import { Starship } from 'src/starships/entities/starship.entity';
+import { Vehicle } from 'src/vehicules/entities/vehicule.entity';
 import {
   Entity,
   Column,
@@ -8,7 +11,7 @@ import {
 } from 'typeorm';
 // import { ManyToMany, JoinTable, ManyToOne  } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'film' })
 export class Film {
   @PrimaryGeneratedColumn()
   id: number;
@@ -39,17 +42,17 @@ export class Film {
   // @JoinTable()
   // planets: string[];
 
-  // @ManyToMany(() => Specie, { cascade: true })
-  // @JoinTable()
-  // species: string[];
+  @ManyToMany(() => Starship, { cascade: true })
+  @JoinTable()
+  starships: string[];
 
-  // @ManyToMany(() => Vehicule, { cascade: true })
-  // @JoinTable()
-  // vehicules: string[];
+  @ManyToMany(() => Vehicle, { cascade: true })
+  @JoinTable()
+  vehicles: string[];
 
-  // @ManyToMany(() => Starship, { cascade: true })
-  // @JoinTable()
-  // starships: string[];
+  @ManyToMany(() => Specie, { cascade: true })
+  @JoinTable()
+  species: string[];
 
   @Column('text')
   url: string;

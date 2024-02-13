@@ -1,50 +1,50 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Vehicule } from '../entities/vehicule.entity';
-import { CreateVehiculeDto } from '../dto/create-vehicule.dto';
-import { UpdateVehiculeDto } from '../dto/update-vehicule.dto';
+import { Vehicle } from '../entities/vehicule.entity';
+import { CreateVehicleDto } from '../dto/create-vehicule.dto';
+import { UpdateVehicleDto } from '../dto/update-vehicule.dto';
 
 @Injectable()
-export class VehiculesService {
+export class VehiclesService {
   constructor(
-    @InjectRepository(Vehicule)
-    private vehiculeRepository: Repository<Vehicule>,
+    @InjectRepository(Vehicle)
+    private vehicleRepository: Repository<Vehicle>,
   ) {}
 
   async findAll() {
-    return this.vehiculeRepository.find();
+    return this.vehicleRepository.find();
   }
 
   // async findOne(id: number) {
-  //     return await this.vehiculeRepository.findOne(id);
+  //     return await this.vehicleRepository.findOne(id);
   // }
 
   async findOneById(vehiculeId: number) {
-    return await this.vehiculeRepository.findOne(vehiculeId);
+    return await this.vehicleRepository.findOne(vehiculeId);
   }
 
   //create one
-  async create(createVehiculeDto: CreateVehiculeDto) {
-    const createdVehicule = await this.vehiculeRepository.create(
-      createVehiculeDto,
+  async create(createVehicleDto: CreateVehicleDto) {
+    const createdVehicule = await this.vehicleRepository.create(
+      createVehicleDto,
     );
-    const saveVehicule = await this.vehiculeRepository.save(createdVehicule);
+    const saveVehicule = await this.vehicleRepository.save(createdVehicule);
     return saveVehicule;
   }
 
   //update one
-  async update(id: number, updateVehiculeDto: UpdateVehiculeDto) {
-    const updateVehicule = await this.vehiculeRepository.update(
+  async update(id: number, updateVehicleDto: UpdateVehicleDto) {
+    const updateVehicule = await this.vehicleRepository.update(
       id,
-      updateVehiculeDto,
+      updateVehicleDto,
     );
     return updateVehicule;
   }
 
   //delete one
   async delete(id: number) {
-    const deleteVehicule = await this.vehiculeRepository.delete(id);
+    const deleteVehicule = await this.vehicleRepository.delete(id);
     return deleteVehicule;
   }
 }
