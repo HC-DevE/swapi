@@ -18,7 +18,6 @@ import { Starship } from 'src/starships/entities/starship.entity';
 import { StarshipsService } from 'src/starships/services/starships.service';
 
 @ApiTags('starships') // put the name of the controller in swagger
-@Controller('starships')
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
 @Controller('starships')
 export class StarshipsController {

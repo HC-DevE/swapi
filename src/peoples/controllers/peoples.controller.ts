@@ -18,7 +18,6 @@ import { People } from 'src/peoples/entities/people.entity';
 import { PeoplesService } from 'src/peoples/services/peoples.service';
 
 @ApiTags('peoples') // put the name of the controller in swagger
-@Controller('peoples')
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
 @Controller('peoples')
 export class PeoplesController {

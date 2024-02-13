@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SpeciesService } from '../services/species.services';
 //import { Public } from 'src/auth/decorators/public.decorator';
 import { CreateSpecieDto } from '../dto/create-specie.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('species') // put the name of the controller in swagger
+@UseGuards(JwtAuthGuard)
 @Controller('species')
 export class SpeciesController {
   constructor(private readonly speciesService: SpeciesService) {}
