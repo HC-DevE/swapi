@@ -10,7 +10,7 @@ import { FilmsModule } from './films/films.module';
 import { StarshipsModule } from './starships/starships.module';
 import { PeoplesModule } from './peoples/peoples.module';
 import { SpeciesModule } from './species/species.module';
-import VehiculesModule from './vehicules/vehicules.module';
+import VehiclesModule from './vehicules/vehicules.module';
 import { PlanetsModule } from './planets/planets.module';
 
 @Module({
@@ -50,7 +50,7 @@ import { PlanetsModule } from './planets/planets.module';
     StarshipsModule,
     PeoplesModule,
     SpeciesModule,
-    VehiculesModule,
+    VehiclesModule,
     PlanetsModule,
   ],
   controllers: [],
