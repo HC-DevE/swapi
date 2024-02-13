@@ -18,7 +18,6 @@ import { Film } from 'src/films/entities/film.entity';
 import { FilmsService } from 'src/films/services/films.service';
 
 @ApiTags('films') // put the name of the controller in swagger
-@Controller('films')
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
 @Controller('films')
 export class FilmsController {

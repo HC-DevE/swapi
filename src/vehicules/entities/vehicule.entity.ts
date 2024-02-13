@@ -1,18 +1,16 @@
+// vehicle.entity.ts
 import { Film } from 'src/films/entities/film.entity';
-import { Specie } from 'src/species/entities/species.entity';
-import { Starship } from 'src/starships/entities/starship.entity';
+import { People } from 'src/peoples/entities/people.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  JoinTable,
   ManyToMany,
-  // ManyToOne,
+  JoinTable,
 } from 'typeorm';
-// import { ManyToMany, JoinTable, ManyToOne  } from 'typeorm';
 
 @Entity()
-export class People {
+export class Vehicule {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,45 +18,42 @@ export class People {
   name: string;
 
   @Column({ type: 'varchar', length: 255 })
-  height: string;
+  model: string;
 
   @Column({ type: 'varchar', length: 255 })
-  mass: string;
+  vehicle_class: string;
 
   @Column({ type: 'varchar', length: 255 })
-  hair_color: string;
+  manufacturer: string;
 
   @Column({ type: 'varchar', length: 255 })
-  skin_color: string;
+  cost_in_credits: string;
 
   @Column({ type: 'varchar', length: 255 })
-  eye_color: string;
+  length: string;
 
   @Column({ type: 'varchar', length: 255 })
-  birth_year: string;
+  crew: string;
 
   @Column({ type: 'varchar', length: 255 })
-  gender: string;
+  passengers: string;
 
-  // @ManyToOne(() => Planet)
-  // @JoinTable()
-  // homeworld: string;
+  @Column({ type: 'varchar', length: 255 })
+  max_atmosphering_speed: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  cargo_capacity: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  consumables: string;
 
   @ManyToMany(() => Film, { cascade: true })
   @JoinTable()
   films: string[];
 
-  @ManyToMany(() => Specie, { cascade: true })
+  @ManyToMany(() => People, { cascade: true })
   @JoinTable()
-  species: string[];
-
-  // @ManyToMany(() => Vehicule, { cascade: true })
-  // @JoinTable()
-  // vehicules: string[];
-
-  @ManyToMany(() => Starship, { cascade: true })
-  @JoinTable()
-  starships: string[];
+  pilots: string[];
 
   @Column('text')
   url: string;
