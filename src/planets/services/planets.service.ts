@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { NotFoundError } from 'rxjs';
 import {
   CreatePlanetDto,
   UpdatePlanetDto,
@@ -15,16 +16,23 @@ export class PlanetsService {
   ) {}
 
   async findAll() {
-    return this.planetRepository.find();
+    const planets = await this.planetRepository.find();
+    console.log({ planets });
+
+    if (!planets) {
+      return new NotFoundError(`Aucune planet n'a été trouvé`);
+    }
+
+    return planets;
   }
 
   // async findOne(id: number) {
   //     return await this.planetRepository.findOne(id);
   // }
 
-  /*async findOneById(planetId: number) {
+  async findOneById(planetId: number) {
     return await this.planetRepository.findOne(planetId);
-  }*/
+  }
 
   //create one
   async create(createPlanetDto: CreatePlanetDto) {

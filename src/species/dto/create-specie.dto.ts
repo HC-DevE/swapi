@@ -1,5 +1,7 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsString, IsNumber } from 'class-validator';
+import { Film } from 'src/films/entities/film.entity';
+import { People } from 'src/peoples/entities/people.entity';
 
 export class CreateSpecieDto {
   @ApiProperty()
@@ -42,13 +44,11 @@ export class CreateSpecieDto {
   @IsNumber()
   readonly language: string;
 
-  //@ApiProperty()
-  //@isArray()
-  //readonly people: number[];
+  @ApiProperty({ type: () => [Film] })
+  films: string[];
 
-  //@ApiProperty()
-  //@isArray()
-  //readonly films: number[];
+  @ApiProperty({ type: () => [People] })
+  peoples: string[];
 
   @ApiProperty()
   @IsString()
@@ -56,3 +56,14 @@ export class CreateSpecieDto {
 }
 
 export class UpdateSpecieDto extends PartialType(CreateSpecieDto) {}
+
+export class DefaultSpecieColumnsResponse extends CreateSpecieDto {
+  @ApiProperty()
+  readonly id: number;
+
+  @ApiProperty()
+  readonly createdAt: Date;
+
+  @ApiProperty()
+  readonly updatedAt: Date;
+}

@@ -1,8 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Specie } from '../entities/species.entity';
-import { CreateSpecieDto } from '../dto/create-specie.dto';
+import { CreateSpecieDto, UpdateSpecieDto } from '../dto/create-specie.dto';
 
 @Injectable()
 export class SpeciesService {
@@ -19,7 +23,7 @@ export class SpeciesService {
     return await this.specieRepository.findOne(id);
   }*/
 
-  async findById(specieId: number) {
+  async findOneById(specieId: number) {
     return await this.specieRepository.findOneOrFail(specieId);
   }
 
@@ -43,7 +47,6 @@ export class SpeciesService {
     return saveSpecie;
   }
 
-  /*
   async update(id: number, updateSpecieDto: UpdateSpecieDto) {
     const specie = await this.specieRepository.preload({
       id,
@@ -55,7 +58,7 @@ export class SpeciesService {
     return this.specieRepository.save(specie);
   }
 
-  async remove(id: number) {
+  async delete(id: number) {
     const specie = await this.specieRepository.findOne(id);
 
     if (!specie) {
@@ -64,5 +67,4 @@ export class SpeciesService {
 
     return this.specieRepository.remove(specie);
   }
-  */
 }
