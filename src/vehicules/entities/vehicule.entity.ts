@@ -1,6 +1,6 @@
 // vehicle.entity.ts
 import { Film } from 'src/films/entities/film.entity';
-import { People } from 'src/peoples/entities/people.entity';
+import { People } from 'src/people/entities/people.entity';
 import {
   Entity,
   Column,
@@ -44,11 +44,11 @@ export class Vehicle {
   @Column({ type: 'varchar', length: 255 })
   consumables: string;
 
-  @ManyToMany(() => Film, { cascade: true })
+  @ManyToMany(() => Film)
   @JoinTable()
   films: string[];
 
-  @ManyToMany(() => People, { cascade: true })
+  @ManyToMany(() => People)
   @JoinTable()
   pilots: string[];
 

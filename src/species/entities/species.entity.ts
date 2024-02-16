@@ -1,13 +1,14 @@
 // species.entity.ts
 
-//import { Planet } from 'src/planets/entities/planets.entity';
 import { Film } from 'src/films/entities/film.entity';
-import { People } from 'src/peoples/entities/people.entity';
+import { People } from 'src/people/entities/people.entity';
+import { Planet } from 'src/planets/entities/planet.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -40,20 +41,20 @@ export class Specie {
   @Column({ type: 'varchar', length: 255 })
   eye_colors: string;
 
-  //@ManyToOne((type) => Planet)
-  //@JoinTable()
-  //homeworld: Planet;
+  @ManyToOne(() => Planet, (planet) => planet.species)
+  @JoinTable()
+  homeworld: Planet;
 
   @Column({ type: 'varchar', length: 255 })
   language: string;
 
-  @ManyToMany(() => People, { cascade: true })
+  @ManyToMany(() => People, (people) => people.species)
   @JoinTable()
-  people: string[];
+  people: People[];
 
-  @ManyToMany(() => Film, { cascade: true })
+  @ManyToMany(() => Film, (film) => film.species)
   @JoinTable()
-  films: string[];
+  films: Film[];
 
   @Column('text')
   url: string;

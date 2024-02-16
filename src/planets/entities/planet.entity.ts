@@ -4,9 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Film } from '../../films/entities/film.entity'; // Assurez-vous d'importer l'entité Film
-import { People } from '../../peoples/entities/people.entity'; // Assurez-vous d'importer l'entité People
+import { People } from '../../people/entities/people.entity'; // Assurez-vous d'importer l'entité People
+import { Specie } from 'src/species/entities/species.entity';
 
 @Entity()
 export class Planet {
@@ -40,13 +42,17 @@ export class Planet {
   @Column({ type: 'varchar', length: 255 })
   surface_water: string;
 
-  @ManyToMany(() => Film, { cascade: true })
+  @ManyToMany(() => Film)
   @JoinTable()
-  films: string[];
+  films: Film[];
 
-  @ManyToMany(() => People, { cascade: true })
+  @ManyToMany(() => People)
   @JoinTable()
-  residents: string[];
+  residents: People[];
+
+  @OneToMany(() => Specie, (specie) => specie.homeworld)
+  @JoinTable()
+  species: Specie[];
 
   @Column('text')
   url: string;

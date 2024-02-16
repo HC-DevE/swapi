@@ -1,10 +1,12 @@
 // starship.entity.ts
+import { Film } from 'src/films/entities/film.entity';
+import { People } from 'src/people/entities/people.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  // ManyToMany,
-  // JoinTable,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity({ name: 'starship' })
@@ -14,6 +16,9 @@ export class Starship {
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  model: string;
 
   @Column({ type: 'varchar', length: 255 })
   starship_class: string;
@@ -48,13 +53,13 @@ export class Starship {
   @Column({ type: 'varchar', length: 255 })
   consumables: string;
 
-  // @ManyToMany(type => Film, { cascade: true })
-  // @JoinTable()
-  // films: Film[];
+  @ManyToMany(() => Film, (film) => film.starships)
+  @JoinTable()
+  films: Film[];
 
-  // @ManyToMany(type => People, { cascade: true })
-  // @JoinTable()
-  // pilots: People[];
+  @ManyToMany(() => People, (person) => person.starships)
+  @JoinTable()
+  pilots: People[];
 
   @Column('text')
   url: string;

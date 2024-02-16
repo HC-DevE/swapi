@@ -1,15 +1,16 @@
 import { Film } from 'src/films/entities/film.entity';
+import { Planet } from 'src/planets/entities/planet.entity';
 import { Specie } from 'src/species/entities/species.entity';
 import { Starship } from 'src/starships/entities/starship.entity';
+import { Vehicle } from 'src/vehicules/entities/vehicule.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
-  // ManyToOne,
+  ManyToOne,
 } from 'typeorm';
-// import { ManyToMany, JoinTable, ManyToOne  } from 'typeorm';
 
 @Entity({ name: 'people' })
 export class People {
@@ -40,23 +41,23 @@ export class People {
   @Column({ type: 'varchar', length: 255 })
   gender: string;
 
-  // @ManyToOne(() => Planet)
-  // @JoinTable()
-  // homeworld: Planet;
+  @ManyToOne(() => Planet)
+  @JoinTable()
+  homeworld: Planet;
 
-  @ManyToMany(() => Film, { cascade: true })
+  @ManyToMany(() => Film, (film) => film.characters)
   @JoinTable()
   films: Film[];
 
-  @ManyToMany(() => Specie, { cascade: true })
+  @ManyToMany(() => Specie, (specie) => specie.people)
   @JoinTable()
   species: Specie[];
 
-  // @ManyToMany(() => Vehicule, { cascade: true })
-  // @JoinTable()
-  // vehicules: string[];
+  @ManyToMany(() => Vehicle, (vehicle) => vehicle.pilots)
+  @JoinTable()
+  vehicules: Vehicle[];
 
-  @ManyToMany(() => Starship, { cascade: true })
+  @ManyToMany(() => Starship, (starship) => starship.pilots)
   @JoinTable()
   starships: Starship[];
 

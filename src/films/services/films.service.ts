@@ -23,6 +23,18 @@ export class FilmsService {
     return await this.filmRepository.findOne(filmId);
   }
 
+  //findAllByStarship
+  async findAllByStarship(id: number) {
+    return await this.filmRepository.find({
+      where: { starships: { id } },
+    });
+  }
+
+  //find all by ids
+  async findAllByIds(ids: number[]) {
+    return await this.filmRepository.findByIds(ids);
+  }
+
   //create one
   async create(createSratshipDto: CreateFilmDto) {
     const createdFilm = await this.filmRepository.create(createSratshipDto);

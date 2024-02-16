@@ -2,9 +2,9 @@
 
 // Path: src/films/dto/create-film.dto.ts
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
-// import { Film } from 'src/films/entities/film.entity';
-// import { People } from 'src/people/entities/people.entity';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { People } from 'src/people/entities/people.entity';
+import { Film } from '../entities/film.entity';
 
 export class CreateFilmDto {
   @ApiProperty()
@@ -32,11 +32,11 @@ export class CreateFilmDto {
   @IsNotEmpty()
   readonly cost_in_credits: string;
 
-  // @ApiProperty({ type: () => [Film] })
-  // films: Film[];
+  @ApiProperty({ type: () => [Film] })
+  films: Film[];
 
-  // @ApiProperty({ type: () => [People] })
-  // pilots: People[];
+  @ApiProperty({ type: () => [People] })
+  pilots: People[];
 
   @ApiProperty()
   @IsString()
@@ -46,11 +46,11 @@ export class CreateFilmDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  readonly peoples: string;
+  readonly people: string;
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly url: string;
 }
 

@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import config from '../../config';
 import { UsersService } from '../../users/services/users.service';
 import { PayloadToken } from './../models/token.model';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +35,13 @@ export class AuthService {
     return null;
   }
 
+  async register(user: CreateUserDto) {
+    const password = await bcrypt.hash(user.password, 10);
+    return this.usersService.create({ ...user, password });
+  }
+
   async login(user: PayloadToken) {
+    console.log('from service', user);
     const { accessToken } = this.jwtToken(user);
     const refreshToken = this.jwtRefreshToken(user);
     await this.usersService.setCurrentRefreshToken(refreshToken, user.id);

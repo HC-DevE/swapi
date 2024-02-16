@@ -1,7 +1,8 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsString, IsNumber } from 'class-validator';
 import { Film } from 'src/films/entities/film.entity';
-import { People } from 'src/peoples/entities/people.entity';
+import { People } from 'src/people/entities/people.entity';
+import { Planet } from 'src/planets/entities/planet.entity';
 
 export class CreateSpecieDto {
   @ApiProperty()
@@ -36,19 +37,20 @@ export class CreateSpecieDto {
   @IsString()
   readonly eye_colors: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Planet })
   @IsNumber()
-  readonly homeworld: string;
+  @IsString({ message: 'Must be a valid planet ID' })
+  readonly homeworld: Planet['id'];
 
   @ApiProperty()
   @IsNumber()
   readonly language: string;
 
   @ApiProperty({ type: () => [Film] })
-  films: string[];
+  films: Film['id'][];
 
   @ApiProperty({ type: () => [People] })
-  peoples: string[];
+  people: People['id'][];
 
   @ApiProperty()
   @IsString()
@@ -62,8 +64,8 @@ export class DefaultSpecieColumnsResponse extends CreateSpecieDto {
   readonly id: number;
 
   @ApiProperty()
-  readonly createdAt: Date;
+  readonly edited: Date;
 
   @ApiProperty()
-  readonly updatedAt: Date;
+  readonly created: Date;
 }
