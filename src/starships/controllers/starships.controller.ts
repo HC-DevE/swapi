@@ -10,6 +10,8 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 // import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { FilmsService } from 'src/films/services/films.service';
+import { PeopleService } from 'src/people/services/people.service';
 import {
   CreateStarshipDto,
   DefaultStarshipColumnsResponse,
@@ -21,7 +23,11 @@ import { StarshipsService } from 'src/starships/services/starships.service';
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
 @Controller('starships')
 export class StarshipsController {
-  constructor(private readonly starshipsService: StarshipsService) {}
+  constructor(
+    private readonly starshipsService: StarshipsService,
+    private readonly filmsService: FilmsService,
+    private readonly peopleService: PeopleService,
+  ) {}
 
   @ApiOperation({ summary: 'create a starship' })
   @ApiResponse({
@@ -31,7 +37,14 @@ export class StarshipsController {
   //   @Public() // makes the endpoint accessible to all
   @Post()
   create(@Body() createStarshipDto: CreateStarshipDto) {
-    return this.starshipsService.create(createStarshipDto);
+    const films = this.filmsService.findAllByIds(createStarshipDto.films);
+    const pilots = this.peopleService.findAllByIds(createStarshipDto.pilots);
+
+    console.log(films, pilots);
+
+    return this.starshipsService.create({
+      ...createStarshipDto,
+    });
   }
 
   @ApiOperation({ summary: 'get all starships' })

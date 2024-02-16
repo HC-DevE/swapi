@@ -36,12 +36,10 @@ export class AuthService {
   }
 
   async register(user: CreateUserDto) {
-    const password = await bcrypt.hash(user.password, 10);
-    return this.usersService.create({ ...user, password });
+    return this.usersService.create(user);
   }
 
   async login(user: PayloadToken) {
-    console.log('from service', user);
     const { accessToken } = this.jwtToken(user);
     const refreshToken = this.jwtRefreshToken(user);
     await this.usersService.setCurrentRefreshToken(refreshToken, user.id);
