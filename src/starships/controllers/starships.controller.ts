@@ -37,14 +37,7 @@ export class StarshipsController {
   //   @Public() // makes the endpoint accessible to all
   @Post()
   create(@Body() createStarshipDto: CreateStarshipDto) {
-    const films = this.filmsService.findAllByIds(createStarshipDto.films);
-    const pilots = this.peopleService.findAllByIds(createStarshipDto.pilots);
-
-    console.log(films, pilots);
-
-    return this.starshipsService.create({
-      ...createStarshipDto,
-    });
+    return this.starshipsService.create(createStarshipDto);
   }
 
   @ApiOperation({ summary: 'get all starships' })

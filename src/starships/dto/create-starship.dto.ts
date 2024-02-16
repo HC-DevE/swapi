@@ -33,10 +33,11 @@ export class CreateStarshipDto {
 
   @ApiProperty({ type: () => [Film] })
   @IsOptional()
-  films?: Film['id'][];
+  films: Film['id'][];
 
   @ApiProperty({ type: () => [People] })
-  pilots?: People['id'][];
+  @IsOptional()
+  pilots: People['id'][];
 
   @ApiProperty()
   @IsString()
