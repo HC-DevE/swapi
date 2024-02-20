@@ -2,20 +2,21 @@ import { Film } from 'src/films/entities/film.entity';
 import { Planet } from 'src/planets/entities/planet.entity';
 import { Specie } from 'src/species/entities/species.entity';
 import { Starship } from 'src/starships/entities/starship.entity';
+import { DefaultEntity } from 'src/utils/entities/default.entity';
 import { Vehicle } from 'src/vehicules/entities/vehicule.entity';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  // PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
 } from 'typeorm';
 
 @Entity({ name: 'people' })
-export class People {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class People extends DefaultEntity {
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -41,7 +42,9 @@ export class People {
   @Column({ type: 'varchar', length: 255 })
   gender: string;
 
-  @ManyToOne(() => Planet)
+  @ManyToOne(() => Planet, (planet) => planet.residents, {
+    cascade: true,
+  })
   @JoinTable()
   homeworld: Planet;
 
@@ -49,27 +52,33 @@ export class People {
   @JoinTable()
   films: Film[];
 
-  @ManyToMany(() => Specie, (specie) => specie.people)
+  @ManyToMany(() => Specie, (specie) => specie.people, {
+    cascade: true,
+  })
   @JoinTable()
   species: Specie[];
 
-  @ManyToMany(() => Vehicle, (vehicle) => vehicle.pilots)
+  @ManyToMany(() => Vehicle, (vehicle) => vehicle.pilots, {
+    cascade: true,
+  })
   @JoinTable()
-  vehicules: Vehicle[];
+  vehicles: Vehicle[];
 
-  @ManyToMany(() => Starship, (starship) => starship.pilots)
+  @ManyToMany(() => Starship, (starship) => starship.pilots, {
+    cascade: true,
+  })
   @JoinTable()
   starships: Starship[];
 
   @Column('text')
   url: string;
 
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-  created: Date;
+  // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  // created: Date;
 
-  @Column('timestamp', {
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  edited: Date;
+  // @Column('timestamp', {
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // edited: Date;
 }

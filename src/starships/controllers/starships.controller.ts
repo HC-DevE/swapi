@@ -18,6 +18,7 @@ import {
 } from 'src/starships/dto/create-starship.dto';
 import { Starship } from 'src/starships/entities/starship.entity';
 import { StarshipsService } from 'src/starships/services/starships.service';
+import { StarshipResponseDTO } from '../dto/starship-api-response.dto';
 
 @ApiTags('starships') // put the name of the controller in swagger
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
@@ -36,7 +37,7 @@ export class StarshipsController {
   })
   //   @Public() // makes the endpoint accessible to all
   @Post()
-  create(@Body() createStarshipDto: CreateStarshipDto) {
+  create(@Body() createStarshipDto: CreateStarshipDto): Promise<Starship> {
     return this.starshipsService.create(createStarshipDto);
   }
 
@@ -47,8 +48,11 @@ export class StarshipsController {
   })
   // @Public() // makes the endpoint accessible to all
   @Get()
-  findAll() {
-    return this.starshipsService.findAll();
+  findAll(): Promise<StarshipResponseDTO[]> {
+    const starships = this.starshipsService.findAll();
+    return starships.then((starships) =>
+      starships.map((starship) => this.toResponseDto(starship)),
+    );
   }
 
   @ApiOperation({ summary: 'get a starship by id' })
@@ -58,8 +62,9 @@ export class StarshipsController {
   })
   //   @Public() // makes the endpoint accessible to all
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.starshipsService.findOneById(+id);
+  findOne(@Param('id') id: string): Promise<StarshipResponseDTO> {
+    const starship = this.starshipsService.findOneById(+id);
+    return Promise.resolve(this.toResponseDto(starship));
   }
 
   @ApiOperation({ summary: 'update a starship' })
@@ -80,5 +85,17 @@ export class StarshipsController {
   @ApiOperation({ summary: 'delete a starship' })
   remove(@Param('id') id: string) {
     return this.starshipsService.delete(+id);
+  }
+
+  private toResponseDto(starship): StarshipResponseDTO {
+    return {
+      ...starship,
+      films: starship.films.map(
+        (film) => `${process.env.API_BASE_URL}/films/${film.id}`,
+      ),
+      pilots: starship.pilots.map(
+        (pilot) => `${process.env.API_BASE_URL}/people/${pilot.id}`,
+      ),
+    };
   }
 }

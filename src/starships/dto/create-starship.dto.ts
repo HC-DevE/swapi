@@ -2,8 +2,8 @@
 
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Film } from 'src/films/entities/film.entity';
-import { People } from 'src/people/entities/people.entity';
+// import { Film } from 'src/films/entities/film.entity';
+// import { People } from 'src/people/entities/people.entity';
 
 export class CreateStarshipDto {
   @ApiProperty()
@@ -31,13 +31,13 @@ export class CreateStarshipDto {
   @IsNotEmpty()
   readonly cost_in_credits: string;
 
-  @ApiProperty({ type: () => [Film] })
+  @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
-  films: Film['id'][];
+  films: number[];
 
-  @ApiProperty({ type: () => [People] })
+  @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
-  pilots: People['id'][];
+  pilots: number[];
 
   @ApiProperty()
   @IsString()
@@ -78,11 +78,6 @@ export class CreateStarshipDto {
   @IsString()
   @IsNotEmpty()
   readonly consumables: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  readonly url: string;
 }
 
 // update-starship.dto.ts

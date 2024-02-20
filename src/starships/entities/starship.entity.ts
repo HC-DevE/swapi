@@ -1,19 +1,17 @@
 // starship.entity.ts
 import { Film } from 'src/films/entities/film.entity';
 import { People } from 'src/people/entities/people.entity';
+import { DefaultEntity } from 'src/utils/entities/default.entity';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  // PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
 } from 'typeorm';
 
 @Entity({ name: 'starship' })
-export class Starship {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Starship extends DefaultEntity {
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
@@ -61,15 +59,12 @@ export class Starship {
   @JoinTable()
   pilots: People[];
 
-  @Column('text')
-  url: string;
+  // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  // created: Date;
 
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-  created: Date;
-
-  @Column('timestamp', {
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  edited: Date;
+  // @Column('timestamp', {
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // edited: Date;
 }

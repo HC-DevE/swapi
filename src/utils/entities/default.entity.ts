@@ -9,12 +9,12 @@ export class DefaultEntity {
   id: number;
 
   @CreateDateColumn({
-    name: 'created_at',
+    name: 'created',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'updated_at',
+    name: 'edited',
   })
   updatedAt: Date;
 }

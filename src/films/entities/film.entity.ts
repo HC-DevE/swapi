@@ -2,19 +2,20 @@ import { People } from 'src/people/entities/people.entity';
 import { Planet } from 'src/planets/entities/planet.entity';
 import { Specie } from 'src/species/entities/species.entity';
 import { Starship } from 'src/starships/entities/starship.entity';
+import { DefaultEntity } from 'src/utils/entities/default.entity';
 import { Vehicle } from 'src/vehicules/entities/vehicule.entity';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  // PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
 } from 'typeorm';
 
 @Entity({ name: 'film' })
-export class Film {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Film extends DefaultEntity {
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
   @Column({ type: 'varchar', length: 255 })
   title: string;
@@ -35,42 +36,47 @@ export class Film {
   release_date: string;
 
   @ManyToMany(() => People, (people) => people.films, {
-    nullable: true,
+    cascade: true,
   })
   @JoinTable()
   characters: People[];
 
   @ManyToMany(() => Planet, (planet) => planet.films, {
-    nullable: true,
+    cascade: true,
   })
   @JoinTable()
   planets: Planet[];
 
   @ManyToMany(() => Starship, (starship) => starship.films, {
+    cascade: true,
     nullable: true,
   })
   @JoinTable()
   starships: Starship[];
 
   @ManyToMany(() => Vehicle, (vehicle) => vehicle.films, {
+    cascade: true,
     nullable: true,
   })
   @JoinTable()
   vehicles: Vehicle[];
 
-  @ManyToMany(() => Specie, (specie) => specie.films)
+  @ManyToMany(() => Specie, (specie) => specie.films, {
+    cascade: true,
+    nullable: true,
+  })
   @JoinTable()
   species: Specie[];
 
   @Column('text')
   url: string;
 
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-  created: Date;
+  // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  // created: Date;
 
-  @Column('timestamp', {
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  edited: Date;
+  // @Column('timestamp', {
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // edited: Date;
 }

@@ -36,23 +36,42 @@ export class StarshipsService {
   }
 
   //create one
-  async create(createSratshipDto: CreateStarshipDto) {
-    let films = [];
-    if (createSratshipDto.films) {
-      films = await this.filmService.findAllByIds(createSratshipDto.films);
-    }
-    let pilots = [];
-    if (createSratshipDto.pilots) {
-      pilots = await this.peopleService.findAllByIds(createSratshipDto.pilots);
+  async create(createStarshipDto: CreateStarshipDto): Promise<Starship> {
+    // const starship = this.starshipRepository.create(
+    //   {
+    //     ...createStarshipDto,
+    //     films: await this.filmService.findAllByIds(createStarshipDto.films),
+    //     pilots: await this.peopleService.findAllByIds(createStarshipDto.pilots),
+    //   }
+    // );
+    // return this.starshipRepository.save(starship);
+
+    const starship = new Starship();
+
+    // Résolution et assignation de la relation films
+    if (createStarshipDto.films && createStarshipDto.films.length > 0) {
+      starship.films = await this.filmService.findAllByIds(
+        createStarshipDto.films,
+      );
     }
 
-    const newStarship = this.starshipRepository.create({
-      ...createSratshipDto,
-      films,
-      pilots,
-    });
+    // Résolution et assignation de la relation pilots
+    if (createStarshipDto.pilots && createStarshipDto.pilots.length > 0) {
+      starship.pilots = await this.peopleService.findAllByIds(
+        createStarshipDto.pilots,
+      );
+    }
 
-    return await this.starshipRepository.save(newStarship);
+    // Assignation des autres propriétés
+    starship.name = createStarshipDto.name;
+    starship.model = createStarshipDto.model;
+    starship.starship_class = createStarshipDto.starship_class;
+    starship.manufacturer = createStarshipDto.manufacturer;
+    starship.cost_in_credits = createStarshipDto.cost_in_credits;
+    starship.length = createStarshipDto.length;
+
+    await this.starshipRepository.save(starship);
+    return starship;
   }
 
   //update one

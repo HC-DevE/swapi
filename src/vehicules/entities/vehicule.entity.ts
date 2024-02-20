@@ -1,18 +1,19 @@
 // vehicle.entity.ts
 import { Film } from 'src/films/entities/film.entity';
 import { People } from 'src/people/entities/people.entity';
+import { DefaultEntity } from 'src/utils/entities/default.entity';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  // PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
 
 @Entity({ name: 'vehicle' })
-export class Vehicle {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Vehicle extends DefaultEntity {
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -44,23 +45,23 @@ export class Vehicle {
   @Column({ type: 'varchar', length: 255 })
   consumables: string;
 
-  @ManyToMany(() => Film)
+  @ManyToMany(() => Film, (film) => film.vehicles)
   @JoinTable()
-  films: string[];
+  films: Film[];
 
-  @ManyToMany(() => People)
+  @ManyToMany(() => People, (person) => person.vehicles)
   @JoinTable()
-  pilots: string[];
+  pilots: People[];
 
   @Column('text')
   url: string;
 
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-  created: Date;
+  // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  // created: Date;
 
-  @Column('timestamp', {
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  edited: Date;
+  // @Column('timestamp', {
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // edited: Date;
 }

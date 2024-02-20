@@ -3,19 +3,20 @@
 import { Film } from 'src/films/entities/film.entity';
 import { People } from 'src/people/entities/people.entity';
 import { Planet } from 'src/planets/entities/planet.entity';
+import { DefaultEntity } from 'src/utils/entities/default.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  // PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity({ name: 'specie' })
-export class Specie {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Specie extends DefaultEntity {
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -59,12 +60,12 @@ export class Specie {
   @Column('text')
   url: string;
 
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-  created: Date;
+  // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  // created: Date;
 
-  @Column('timestamp', {
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  edited: Date;
+  // @Column('timestamp', {
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // edited: Date;
 }
