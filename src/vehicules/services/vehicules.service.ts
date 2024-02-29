@@ -6,6 +6,7 @@ import { CreateVehicleDto } from '../dto/create-vehicule.dto';
 import { UpdateVehicleDto } from '../dto/update-vehicule.dto';
 import { FilmsService } from 'src/films/services/films.service';
 import { PeopleService } from 'src/people/services/people.service';
+// import { StarshipResponseDTO } from 'src/starships/dto/starship-api-response.dto';
 
 @Injectable()
 export class VehiclesService {
@@ -17,7 +18,7 @@ export class VehiclesService {
   ) {}
 
   async findAll() {
-    return this.vehicleRepository.find();
+    return this.vehicleRepository.find({ relations: ['films', 'pilots'] });
   }
 
   // async findOne(id: number) {
@@ -25,11 +26,20 @@ export class VehiclesService {
   // }
 
   async findOneById(vehiculeId: number) {
-    return await this.vehicleRepository.findOne(vehiculeId);
+    return await this.vehicleRepository.findOne(vehiculeId, {
+      relations: ['films', 'pilots'],
+    });
   }
 
   //create one
   async create(createVehicleDto: CreateVehicleDto) {
+    const vehicule = await this.vehicleRepository.findOne({
+      where: { name: createVehicleDto.nom },
+    });
+
+    if (vehicule)
+      throw new BadRequestException('Véhicule avec ce nom existe déjà');
+
     let films = [];
     if (createVehicleDto.films) {
       films = await this.filmsService.findAllByIds(createVehicleDto.films);
@@ -49,14 +59,16 @@ export class VehiclesService {
   }
 
   //update one
-  async update(id: number, updateVehicleDto: UpdateVehicleDto) {
+  async update(id: number, updateVehicleDto: UpdateVehicleDto): Promise<any> {
     const vehicle = await this.vehicleRepository.findOne(id);
+
     if (!vehicle) throw new BadRequestException('Véhicule non trouvé');
 
     let films = [];
     if (updateVehicleDto.films) {
       films = await this.filmsService.findAllByIds(updateVehicleDto.films);
     }
+
     let pilots = [];
     if (updateVehicleDto.pilots) {
       pilots = await this.peopleService.findAllByIds(pilots);
@@ -73,8 +85,11 @@ export class VehiclesService {
   }
 
   //delete one
-  async delete(id: number) {
-    const deleteVehicule = await this.vehicleRepository.delete(id);
-    return deleteVehicule;
+  async delete(id: number): Promise<{ message: string }> {
+    const vehicle = await this.vehicleRepository.findOne(id);
+    if (!vehicle) throw new BadRequestException('Véhicule non trouvé');
+
+    await this.vehicleRepository.remove(vehicle);
+    return { message: 'Véhicule supprimé' };
   }
 }

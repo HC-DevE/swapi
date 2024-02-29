@@ -57,11 +57,6 @@ export class CreatePlanetDto {
   @ApiProperty({ type: () => [People] })
   @IsOptional()
   residents: People[];
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  url: string;
 }
 
 export class UpdatePlanetDto extends PartialType(CreatePlanetDto) {}

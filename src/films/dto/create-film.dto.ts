@@ -2,7 +2,7 @@
 
 // Path: src/films/dto/create-film.dto.ts
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { People } from 'src/people/entities/people.entity';
 // import { Film } from '../entities/film.entity';
 import { Planet } from 'src/planets/entities/planet.entity';
@@ -60,11 +60,6 @@ export class CreateFilmDto {
   @IsString()
   @IsNotEmpty()
   readonly people: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  readonly url: string;
 }
 
 // update-film.dto.ts

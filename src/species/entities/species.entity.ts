@@ -7,7 +7,7 @@ import { DefaultEntity } from 'src/utils/entities/default.entity';
 import {
   Column,
   Entity,
-  JoinTable,
+  // JoinTable,
   ManyToMany,
   ManyToOne,
   // PrimaryGeneratedColumn,
@@ -42,23 +42,23 @@ export class Specie extends DefaultEntity {
   @Column({ type: 'varchar', length: 255 })
   eye_colors: string;
 
-  @ManyToOne(() => Planet, (planet) => planet.species)
-  @JoinTable()
-  homeworld: Planet;
-
   @Column({ type: 'varchar', length: 255 })
   language: string;
 
-  @ManyToMany(() => People, (people) => people.species)
-  @JoinTable()
+  @ManyToOne(() => Planet, (planet) => planet.species, {
+    nullable: true,
+  })
+  homeworld: Planet;
+
+  @ManyToMany(() => People, (people) => people.species, {
+    nullable: true,
+  })
   people: People[];
 
-  @ManyToMany(() => Film, (film) => film.species)
-  @JoinTable()
+  @ManyToMany(() => Film, (film) => film.species, {
+    nullable: true,
+  })
   films: Film[];
-
-  @Column('text')
-  url: string;
 
   // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   // created: Date;

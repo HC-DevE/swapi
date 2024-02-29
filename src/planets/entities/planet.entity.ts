@@ -3,7 +3,7 @@ import {
   Column,
   // PrimaryGeneratedColumn,
   ManyToMany,
-  JoinTable,
+  // JoinTable,
   OneToMany,
 } from 'typeorm';
 import { Film } from '../../films/entities/film.entity'; // Assurez-vous d'importer l'entité Film
@@ -43,20 +43,20 @@ export class Planet extends DefaultEntity {
   @Column({ type: 'varchar', length: 255 })
   surface_water: string;
 
-  @ManyToMany(() => Film) //one to many
-  @JoinTable()
+  @ManyToMany(() => Film, {
+    nullable: true,
+  }) //one to many
   films: Film[];
 
-  @OneToMany(() => People, (people) => people.homeworld)
-  @JoinTable()
+  @OneToMany(() => People, (people) => people.homeworld, {
+    nullable: true,
+  })
   residents: People[];
 
-  @OneToMany(() => Specie, (specie) => specie.homeworld)
-  @JoinTable()
+  @OneToMany(() => Specie, (specie) => specie.homeworld, {
+    nullable: true,
+  })
   species: Specie[];
-
-  @Column('text')
-  url: string;
 
   // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   // created: Date;

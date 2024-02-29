@@ -51,10 +51,6 @@ export class CreateSpecieDto {
 
   @ApiProperty({ type: () => [People] })
   people: People['id'][];
-
-  @ApiProperty()
-  @IsString()
-  readonly url: string;
 }
 
 export class UpdateSpecieDto extends PartialType(CreateSpecieDto) {}

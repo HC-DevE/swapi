@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-// import { Public } from 'src/auth/decorators/public.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { FilmsService } from 'src/films/services/films.service';
 import { PeopleService } from 'src/people/services/people.service';
@@ -35,7 +35,7 @@ export class StarshipsController {
     status: 201,
     type: Starship,
   })
-  //   @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Post()
   create(@Body() createStarshipDto: CreateStarshipDto): Promise<Starship> {
     return this.starshipsService.create(createStarshipDto);
@@ -46,13 +46,11 @@ export class StarshipsController {
     status: 200,
     type: [DefaultStarshipColumnsResponse], //or only the column without the array
   })
-  // @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Get()
-  findAll(): Promise<StarshipResponseDTO[]> {
-    const starships = this.starshipsService.findAll();
-    return starships.then((starships) =>
-      starships.map((starship) => this.toResponseDto(starship)),
-    );
+  async findAll(): Promise<StarshipResponseDTO[]> {
+    const starships = await this.starshipsService.findAll();
+    return starships.map((starship) => this.toResponseDto(starship));
   }
 
   @ApiOperation({ summary: 'get a starship by id' })
@@ -60,11 +58,11 @@ export class StarshipsController {
     status: 200,
     type: DefaultStarshipColumnsResponse,
   })
-  //   @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<StarshipResponseDTO> {
-    const starship = this.starshipsService.findOneById(+id);
-    return Promise.resolve(this.toResponseDto(starship));
+  async findOne(@Param('id') id: string): Promise<StarshipResponseDTO> {
+    const starship = await this.starshipsService.findOneById(+id);
+    return this.toResponseDto(starship);
   }
 
   @ApiOperation({ summary: 'update a starship' })
@@ -72,7 +70,7 @@ export class StarshipsController {
     status: 200,
     type: DefaultStarshipColumnsResponse,
   })
-  //   @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Patch(':id')
   update(
     @Param('id') id: string,

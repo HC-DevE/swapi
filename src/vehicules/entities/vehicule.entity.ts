@@ -7,7 +7,7 @@ import {
   Column,
   // PrimaryGeneratedColumn,
   ManyToMany,
-  JoinTable,
+  // JoinTable,
 } from 'typeorm';
 
 @Entity({ name: 'vehicle' })
@@ -46,15 +46,10 @@ export class Vehicle extends DefaultEntity {
   consumables: string;
 
   @ManyToMany(() => Film, (film) => film.vehicles)
-  @JoinTable()
   films: Film[];
 
   @ManyToMany(() => People, (person) => person.vehicles)
-  @JoinTable()
   pilots: People[];
-
-  @Column('text')
-  url: string;
 
   // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   // created: Date;

@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-// import { Public } from 'src/auth/decorators/public.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   CreateVehicleDto,
@@ -29,7 +29,7 @@ export class VehiclesController {
     status: 201,
     type: Vehicle,
   })
-  //   @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Post()
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehiclesService.create(createVehicleDto);
@@ -40,7 +40,7 @@ export class VehiclesController {
     status: 200,
     type: [DefaultVehicleColumnsResponse], //or only the column without the array
   })
-  // @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Get()
   findAll() {
     return this.vehiclesService.findAll();

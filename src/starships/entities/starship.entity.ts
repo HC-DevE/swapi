@@ -6,7 +6,7 @@ import {
   Entity,
   Column,
   // PrimaryGeneratedColumn,
-  JoinTable,
+  // JoinTable,
   ManyToMany,
 } from 'typeorm';
 
@@ -51,12 +51,14 @@ export class Starship extends DefaultEntity {
   @Column({ type: 'varchar', length: 255 })
   consumables: string;
 
-  @ManyToMany(() => Film, (film) => film.starships)
-  @JoinTable()
+  @ManyToMany(() => Film, (film) => film.starships, {
+    nullable: true,
+  })
   films: Film[];
 
-  @ManyToMany(() => People, (person) => person.starships)
-  @JoinTable()
+  @ManyToMany(() => People, (person) => person.starships, {
+    nullable: true,
+  })
   pilots: People[];
 
   // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })

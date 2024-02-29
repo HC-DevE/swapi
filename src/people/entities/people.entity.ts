@@ -15,9 +15,6 @@ import {
 
 @Entity({ name: 'people' })
 export class People extends DefaultEntity {
-  // @PrimaryGeneratedColumn()
-  // id: number;
-
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
@@ -44,34 +41,36 @@ export class People extends DefaultEntity {
 
   @ManyToOne(() => Planet, (planet) => planet.residents, {
     cascade: true,
+    nullable: true,
   })
   @JoinTable()
   homeworld: Planet;
 
-  @ManyToMany(() => Film, (film) => film.characters)
-  @JoinTable()
+  @ManyToMany(() => Film, (film) => film.characters, {
+    nullable: true,
+  })
   films: Film[];
 
   @ManyToMany(() => Specie, (specie) => specie.people, {
     cascade: true,
+    nullable: true,
   })
   @JoinTable()
   species: Specie[];
 
   @ManyToMany(() => Vehicle, (vehicle) => vehicle.pilots, {
     cascade: true,
+    nullable: true,
   })
   @JoinTable()
   vehicles: Vehicle[];
 
   @ManyToMany(() => Starship, (starship) => starship.pilots, {
     cascade: true,
+    nullable: true,
   })
   @JoinTable()
   starships: Starship[];
-
-  @Column('text')
-  url: string;
 
   // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   // created: Date;
