@@ -32,7 +32,14 @@ export class PlanetsService {
   //     return await this.planetRepository.findOne(id);
   // }
 
-  async findOneById(ids: number[]) {
+  async findOneById(planetId: number) {
+    return await this.planetRepository.findOne(planetId, {
+      relations: ['films', 'residents'],
+    });
+  }
+
+  //findAll by ids
+  async findAllByIds(ids: number[]) {
     return await this.planetRepository.findByIds(ids, {
       relations: ['films', 'residents'],
     });
