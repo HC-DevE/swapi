@@ -22,7 +22,9 @@ export class SpeciesService {
   ) {}
 
   async findAll() {
-    return this.specieRepository.find();
+    return this.specieRepository.find({
+      relations: ['homeworld', 'films', 'people'],
+    });
   }
 
   /*async findOne(id: number) {
@@ -30,68 +32,91 @@ export class SpeciesService {
   }*/
 
   async findOneById(specieId: number) {
-    return await this.specieRepository.findOneOrFail(specieId);
+    return await this.specieRepository.findOne(specieId, {
+      relations: ['homeworld', 'films', 'people'],
+    });
   }
 
-  async findByName(name: string) {
+  //findAll by ids
+  async findAllByIds(ids: number[]) {
+    return await this.specieRepository.findByIds(ids, {
+      relations: ['homeworld', 'films', 'people'],
+    });
+  }
+
+  /*async findByName(name: string) {
     return await this.specieRepository.findOneOrFail({
       where: { name },
     });
-  }
+  }*/
 
   async create(createSpecieDto: CreateSpecieDto) {
-    const specie = await this.specieRepository.findOne({
-      name: createSpecieDto.name,
+    const existingSpecie = await this.specieRepository.findOne({
+      where: { name: createSpecieDto.name },
     });
 
-    if (specie) {
+    if (existingSpecie) {
       throw new BadRequestException(
         `Specie with name ${createSpecieDto.name} already exists`,
       );
     }
 
-    const homeworld = await this.planetService.findOneById(
-      createSpecieDto.homeworld,
-    );
-    const people = await this.peopleService.findAllByIds(
-      createSpecieDto.people,
-    );
-    const films = await this.filmService.findAllByIds(createSpecieDto.films);
+    const specie = new Specie();
 
-    const createdSpecie = this.specieRepository.create({
-      ...createSpecieDto,
-      homeworld,
-      people,
-      films,
-    });
+    Object.assign(specie, createSpecieDto);
 
-    const saveSpecie = await this.specieRepository.save(createdSpecie);
-    return saveSpecie;
+    if (createSpecieDto.films && createSpecieDto.films.length > 0) {
+      specie.films = await this.filmService.findAllByIds(createSpecieDto.films);
+    }
+
+    if (createSpecieDto.people && createSpecieDto.people.length > 0) {
+      specie.people = await this.peopleService.findAllByIds(
+        createSpecieDto.people,
+      );
+    }
+
+    if (createSpecieDto.homeworld) {
+      specie.homeworld = await this.planetService.findOneById(
+        +createSpecieDto.homeworld,
+      );
+    }
+
+    await this.specieRepository.save(specie);
+
+    return specie;
   }
 
   async update(id: number, updateSpecieDto: UpdateSpecieDto) {
-    const specie = await this.specieRepository.findOne(id);
+    const specie = await this.specieRepository.findOne(id, {
+      relations: ['homeworld', 'films', 'people'],
+    });
 
     if (!specie) {
       throw new NotFoundException(`Specie with id ${id} does not exist`);
     }
 
+    let films = [];
+    if (updateSpecieDto.films) {
+      films = await this.filmService.findAllByIds(updateSpecieDto.films);
+    }
+
+    let people = [];
+    if (updateSpecieDto.people) {
+      people = await this.peopleService.findAllByIds(updateSpecieDto.people);
+    }
+
     const homeworld = await this.planetService.findOneById(
-      updateSpecieDto.homeworld,
+      +updateSpecieDto.homeworld,
     );
-    const people = await this.peopleService.findAllByIds(
-      updateSpecieDto.people,
+
+    return this.specieRepository.save(
+      this.specieRepository.merge(specie, {
+        ...updateSpecieDto,
+        homeworld,
+        films,
+        people,
+      }),
     );
-    const films = await this.filmService.findAllByIds(updateSpecieDto.films);
-
-    const updatedSpecie = await this.specieRepository.update(id, {
-      ...updateSpecieDto,
-      homeworld,
-      people,
-      films,
-    });
-
-    return updatedSpecie;
   }
 
   async delete(id: number) {

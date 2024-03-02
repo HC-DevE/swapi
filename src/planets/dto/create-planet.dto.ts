@@ -1,7 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Film } from 'src/films/entities/film.entity';
-import { People } from 'src/people/entities/people.entity';
 
 export class CreatePlanetDto {
   @ApiProperty()
@@ -49,11 +47,11 @@ export class CreatePlanetDto {
   @IsNotEmpty()
   readonly surface_water: string;
 
-  @ApiProperty({ type: () => [Film] })
+  @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
   films: number[];
 
-  @ApiProperty({ type: () => [People] })
+  @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
   residents: number[];
 }

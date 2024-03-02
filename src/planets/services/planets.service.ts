@@ -56,6 +56,8 @@ export class PlanetsService {
 
     const planet = new Planet();
 
+    Object.assign(planet, createPlanetDto);
+
     if (createPlanetDto.films && createPlanetDto.films.length > 0) {
       planet.films = await this.filmService.findAllByIds(createPlanetDto.films);
     }
