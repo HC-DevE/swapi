@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsOptional } from 'class-validator';
 import { Film } from 'src/films/entities/film.entity';
 import { People } from 'src/people/entities/people.entity';
 import { Planet } from 'src/planets/entities/planet.entity';
@@ -47,10 +47,12 @@ export class CreateSpecieDto {
   readonly language: string;
 
   @ApiProperty({ type: () => [Film] })
-  films: Film['id'][];
+  @IsOptional()
+  films: number[];
 
   @ApiProperty({ type: () => [People] })
-  people: People['id'][];
+  @IsOptional()
+  people: number[];
 }
 
 export class UpdateSpecieDto extends PartialType(CreateSpecieDto) {}
