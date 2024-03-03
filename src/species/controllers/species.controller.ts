@@ -38,7 +38,7 @@ export class SpeciesController {
     status: 201,
     type: Specie,
   })
-  //   @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Post()
   create(@Body() createSpecieDto: CreateSpecieDto) {
     return this.speciesService.create(createSpecieDto);
@@ -73,7 +73,7 @@ export class SpeciesController {
     status: 200,
     type: DefaultSpecieColumnsResponse,
   })
-  //   @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSpecieDto: CreateSpecieDto) {
     return this.speciesService.update(+id, updateSpecieDto);

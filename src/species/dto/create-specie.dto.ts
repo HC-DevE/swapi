@@ -40,7 +40,7 @@ export class CreateSpecieDto {
   readonly homeworld: number;
 
   @ApiProperty()
-  @IsNumber()
+  @IsString()
   readonly language: string;
 
   @ApiProperty({ type: () => [Number], required: false })

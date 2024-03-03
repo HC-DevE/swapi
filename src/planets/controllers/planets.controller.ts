@@ -59,7 +59,7 @@ export class PlanetsController {
     status: 200,
     type: DefaultPlanetColumnsResponse,
   })
-  //   @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const planet = await this.planetsService.findOneById(+id);
@@ -72,7 +72,7 @@ export class PlanetsController {
     status: 200,
     type: DefaultPlanetColumnsResponse,
   })
-  //   @Public() // makes the endpoint accessible to all
+  @Public() // makes the endpoint accessible to all
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePlanetDto: CreatePlanetDto) {
     return this.planetsService.update(+id, updatePlanetDto);

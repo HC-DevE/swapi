@@ -1,3 +1,38 @@
+import { Injectable } from '@nestjs/common';
+import donneesJSON from '../../Json/planets.json';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Planet } from 'src/planets/entities/planet.entity';
+
+@Injectable()
+export class SeederService {
+  constructor(
+    @InjectRepository(Planet)
+    private readonly planetRepository: Repository<Planet>,
+  ) {}
+
+  async seed() {
+    const existingPlanets = await this.planetRepository.find();
+
+    if (existingPlanets.length === 0) {
+      donneesJSON.forEach(async (planetData) => {
+        const newPlanet = this.planetRepository.create({
+          name: planetData.fields.name,
+          climate: planetData.fields.climate,
+          surface_water: planetData.fields.surface_water,
+          diameter: planetData.fields.diameter,
+          rotation_period: planetData.fields.rotation_period,
+          terrain: planetData.fields.terrain,
+          gravity: planetData.fields.gravity,
+          orbital_period: planetData.fields.orbital_period,
+          population: planetData.fields.population,
+        });
+        await this.planetRepository.save(newPlanet);
+      });
+    }
+  }
+}
+
 // import {
 //   // createConnection,
 //   getRepository,

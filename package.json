@@ -14,7 +14,7 @@
     "migration:revert": "npm run build && npx typeorm migration:revert",
     "seed:run": "npm run build && ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
     "seed:one": "npm run build && ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -s",
-    "seed": "npm run build && ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -s ./src/db/seeds/starhips.seeders.js",
+    "seed": "npm run build && ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -s ./src/db/seeds/planet.seeders.ts",
     "seed:custom": "ts-node src/db/seeds/seed",
     "prebuild": "rimraf dist",
     "build": "nest build",
