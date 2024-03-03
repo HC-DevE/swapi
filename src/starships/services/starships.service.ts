@@ -94,12 +94,13 @@ export class StarshipsService {
       pilots = await this.peopleService.findAllByIds(updateStarshipDto.pilots);
     }
 
-    return this.starshipRepository.save(
-      this.starshipRepository.merge(starship, {
+    return this.starshipRepository.update(
+      { id },
+      {
         ...updateStarshipDto,
         films,
         pilots,
-      }),
+      },
     );
   }
 

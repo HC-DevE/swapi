@@ -15,6 +15,7 @@ import { PeopleService } from 'src/people/services/people.service';
 import {
   CreateStarshipDto,
   DefaultStarshipColumnsResponse,
+  UpdateStarshipDto,
 } from 'src/starships/dto/create-starship.dto';
 import { Starship } from 'src/starships/entities/starship.entity';
 import { StarshipsService } from 'src/starships/services/starships.service';
@@ -74,7 +75,7 @@ export class StarshipsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateStarshipDto: CreateStarshipDto,
+    @Body() updateStarshipDto: UpdateStarshipDto,
   ) {
     return this.starshipsService.update(+id, updateStarshipDto);
   }
