@@ -47,6 +47,17 @@ export class StarshipsController {
     return this.starshipsService.create(createStarshipDto);
   }
 
+  @ApiOperation({ summary: 'seed starship' })
+  @ApiResponse({
+    status: 201,
+    type: Starship,
+  })
+  @Public() // makes the endpoint accessible to all
+  @Get('seed')
+  seedAll(): Promise<any> {
+    return this.starshipsService.seedAll();
+  }
+
   @ApiOperation({ summary: 'get all starships' })
   @ApiResponse({
     status: 200,
