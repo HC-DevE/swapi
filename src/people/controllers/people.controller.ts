@@ -13,15 +13,15 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   CreatePeopleDto,
   DefaultPeopleColumnsResponse,
-} from 'src/peoples/dto/create-people.dto';
-import { People } from 'src/peoples/entities/people.entity';
-import { PeoplesService } from 'src/peoples/services/peoples.service';
+} from 'src/people/dto/create-people.dto';
+import { People } from 'src/people/entities/people.entity';
+import { PeopleService } from 'src/people/services/people.service';
 
-@ApiTags('peoples') // put the name of the controller in swagger
+@ApiTags('people') // put the name of the controller in swagger
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
-@Controller('peoples')
-export class PeoplesController {
-  constructor(private readonly peoplesService: PeoplesService) {}
+@Controller('people')
+export class PeopleController {
+  constructor(private readonly peopleService: PeopleService) {}
 
   @ApiOperation({ summary: 'create a people' })
   @ApiResponse({
@@ -31,10 +31,10 @@ export class PeoplesController {
   //   @Public() // makes the endpoint accessible to all
   @Post()
   create(@Body() createPeopleDto: CreatePeopleDto) {
-    return this.peoplesService.create(createPeopleDto);
+    return this.peopleService.create(createPeopleDto);
   }
 
-  @ApiOperation({ summary: 'get all peoples' })
+  @ApiOperation({ summary: 'get all people' })
   @ApiResponse({
     status: 200,
     type: [DefaultPeopleColumnsResponse], //or only the column without the array
@@ -42,7 +42,7 @@ export class PeoplesController {
   // @Public() // makes the endpoint accessible to all
   @Get()
   findAll() {
-    return this.peoplesService.findAll();
+    return this.peopleService.findAll();
   }
 
   @ApiOperation({ summary: 'get a people by id' })
@@ -53,7 +53,7 @@ export class PeoplesController {
   //   @Public() // makes the endpoint accessible to all
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.peoplesService.findOneById(+id);
+    return this.peopleService.findOneById(+id);
   }
 
   @ApiOperation({ summary: 'update a people' })
@@ -64,12 +64,12 @@ export class PeoplesController {
   //   @Public() // makes the endpoint accessible to all
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePeopleDto: CreatePeopleDto) {
-    return this.peoplesService.update(+id, updatePeopleDto);
+    return this.peopleService.update(+id, updatePeopleDto);
   }
 
   //delete a people by id
   @ApiOperation({ summary: 'delete a people' })
   remove(@Param('id') id: string) {
-    return this.peoplesService.delete(+id);
+    return this.peopleService.delete(+id);
   }
 }

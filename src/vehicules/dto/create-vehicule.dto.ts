@@ -1,12 +1,6 @@
 // create-vehicule.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-  IsArray,
-  IsUrl,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsArray } from 'class-validator';
 
 export class CreateVehicleDto {
   @IsNotEmpty()
@@ -53,21 +47,15 @@ export class CreateVehicleDto {
   @IsString()
   readonly consommables: string;
 
+  @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
   @IsArray()
-  readonly films?: string[];
+  readonly films: number[];
 
+  @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
   @IsArray()
-  readonly pilotes?: string[];
-
-  @IsNotEmpty()
-  @IsUrl()
-  readonly url: string;
-
-  @IsNotEmpty()
-  @IsString()
-  readonly created: string;
+  readonly pilots: number[];
 }
 
 export class DefaultVehicleColumnsResponse extends CreateVehicleDto {

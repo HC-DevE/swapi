@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
@@ -18,6 +19,8 @@ import JwtRefreshGuard from '../guards/jwt-refresh.guard';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { PayloadToken } from '../models/token.model';
 import { AuthService } from '../services/auth.service';
+import { Public } from '../decorators/public.decorator';
+import { RegisterDto } from '../dto/register.dto';
 
 type AuthorizedRequest = Express.Request & {
   headers: { authorization: string };
@@ -33,10 +36,19 @@ export class AuthController {
   @ApiResponse({ type: PostLoginResponse, status: 200 })
   @UseGuards(LocalAuthGuard)
   @HttpCode(200)
+  @Public()
   @Post('login')
   login(@Request() req: { user: PayloadToken }) {
     const user = req.user;
     return this.authService.login(user);
+  }
+
+  @ApiBody({ type: RegisterDto })
+  @ApiResponse({ status: 200 })
+  @HttpCode(201)
+  @Post('register')
+  register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
   }
 
   @ApiResponse({ status: 200 })

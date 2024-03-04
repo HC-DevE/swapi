@@ -1,8 +1,7 @@
 // create-starship.dto.ts
 
-// Path: src/starships/dto/create-starship.dto.ts
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 // import { Film } from 'src/films/entities/film.entity';
 // import { People } from 'src/people/entities/people.entity';
 
@@ -32,11 +31,13 @@ export class CreateStarshipDto {
   @IsNotEmpty()
   readonly cost_in_credits: string;
 
-  // @ApiProperty({ type: () => [Film] })
-  // films: Film[];
+  @ApiProperty({ type: () => [Number], required: false })
+  @IsOptional()
+  films: number[];
 
-  // @ApiProperty({ type: () => [People] })
-  // pilots: People[];
+  @ApiProperty({ type: () => [Number], required: false })
+  @IsOptional()
+  pilots: number[];
 
   @ApiProperty()
   @IsString()
@@ -77,11 +78,6 @@ export class CreateStarshipDto {
   @IsString()
   @IsNotEmpty()
   readonly consumables: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  readonly url: string;
 }
 
 // update-starship.dto.ts

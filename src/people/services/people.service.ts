@@ -3,12 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   CreatePeopleDto,
   UpdatePeopleDto,
-} from 'src/peoples/dto/create-people.dto';
-import { People } from 'src/peoples/entities/people.entity';
+} from 'src/people/dto/create-people.dto';
+import { People } from 'src/people/entities/people.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class PeoplesService {
+export class PeopleService {
   constructor(
     @InjectRepository(People)
     private peopleRepository: Repository<People>,
@@ -16,6 +16,11 @@ export class PeoplesService {
 
   async findAll() {
     return this.peopleRepository.find();
+  }
+
+  //find all by ids
+  async findAllByIds(ids: number[]) {
+    return await this.peopleRepository.findByIds(ids);
   }
 
   // async findOne(id: number) {

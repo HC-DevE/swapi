@@ -14,7 +14,7 @@ export class DefaultEntity {
   createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'updated_at',
+    name: 'edited_at',
   })
   updatedAt: Date;
 }

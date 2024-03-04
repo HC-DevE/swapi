@@ -1,17 +1,20 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  // PrimaryGeneratedColumn,
   ManyToMany,
-  JoinTable,
+  // JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Film } from '../../films/entities/film.entity'; // Assurez-vous d'importer l'entité Film
-import { People } from '../../peoples/entities/people.entity'; // Assurez-vous d'importer l'entité People
+import { People } from '../../people/entities/people.entity'; // Assurez-vous d'importer l'entité People
+import { Specie } from 'src/species/entities/species.entity';
+import { DefaultEntity } from 'src/utils/entities/default.entity';
 
 @Entity()
-export class Planet {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Planet extends DefaultEntity {
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -40,23 +43,27 @@ export class Planet {
   @Column({ type: 'varchar', length: 255 })
   surface_water: string;
 
-  @ManyToMany(() => Film, { cascade: true })
-  @JoinTable()
-  films: string[];
+  @ManyToMany(() => Film, {
+    nullable: true,
+  }) //one to many
+  films: Film[];
 
-  @ManyToMany(() => People, { cascade: true })
-  @JoinTable()
-  residents: string[];
-
-  @Column('text')
-  url: string;
-
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-  created: Date;
-
-  @Column('timestamp', {
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
+  @OneToMany(() => People, (people) => people.homeworld, {
+    nullable: true,
   })
-  edited: Date;
+  residents: People[];
+
+  @OneToMany(() => Specie, (specie) => specie.homeworld, {
+    nullable: true,
+  })
+  species: Specie[];
+
+  // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  // created: Date;
+
+  // @Column('timestamp', {
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // edited: Date;
 }

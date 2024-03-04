@@ -1,4 +1,4 @@
-import { People } from 'src/people/entities/people.entity';
+import { Film } from 'src/films/entities/film.entity';
 import { Planet } from 'src/planets/entities/planet.entity';
 import { Specie } from 'src/species/entities/species.entity';
 import { Starship } from 'src/starships/entities/starship.entity';
@@ -10,62 +10,67 @@ import {
   // PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
 } from 'typeorm';
 
-@Entity({ name: 'film' })
-export class Film extends DefaultEntity {
+@Entity({ name: 'people' })
+export class People extends DefaultEntity {
   @Column({ type: 'varchar', length: 255 })
-  title: string;
+  name: string;
 
   @Column({ type: 'varchar', length: 255 })
-  episod_id: string;
+  height: string;
 
   @Column({ type: 'varchar', length: 255 })
-  opening_crawl: string;
+  mass: string;
 
   @Column({ type: 'varchar', length: 255 })
-  director: string;
+  hair_color: string;
 
   @Column({ type: 'varchar', length: 255 })
-  producer: string;
+  skin_color: string;
 
   @Column({ type: 'varchar', length: 255 })
-  release_date: string;
+  eye_color: string;
 
-  @ManyToMany(() => People, (people) => people.films, {
+  @Column({ type: 'varchar', length: 255 })
+  birth_year: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  gender: string;
+
+  @ManyToOne(() => Planet, (planet) => planet.residents, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
-  characters: People[];
+  homeworld: Planet;
 
-  @ManyToMany(() => Planet, (planet) => planet.films, {
+  @ManyToMany(() => Film, (film) => film.characters, {
+    nullable: true,
+  })
+  films: Film[];
+
+  @ManyToMany(() => Specie, (specie) => specie.people, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
-  planets: Planet[];
+  species: Specie[];
 
-  @ManyToMany(() => Starship, (starship) => starship.films, {
-    cascade: true,
-    nullable: true,
-  })
-  @JoinTable()
-  starships: Starship[];
-
-  @ManyToMany(() => Vehicle, (vehicle) => vehicle.films, {
+  @ManyToMany(() => Vehicle, (vehicle) => vehicle.pilots, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
   vehicles: Vehicle[];
 
-  @ManyToMany(() => Specie, (specie) => specie.films, {
+  @ManyToMany(() => Starship, (starship) => starship.pilots, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
-  species: Specie[];
+  starships: Starship[];
 
   // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   // created: Date;

@@ -1,20 +1,22 @@
 // species.entity.ts
 
-//import { Planet } from 'src/planets/entities/planets.entity';
 import { Film } from 'src/films/entities/film.entity';
-import { People } from 'src/peoples/entities/people.entity';
+import { People } from 'src/people/entities/people.entity';
+import { Planet } from 'src/planets/entities/planet.entity';
+import { DefaultEntity } from 'src/utils/entities/default.entity';
 import {
   Column,
   Entity,
-  JoinTable,
+  // JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn,
+  ManyToOne,
+  // PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity({ name: 'specie' })
-export class Specie {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Specie extends DefaultEntity {
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -40,30 +42,30 @@ export class Specie {
   @Column({ type: 'varchar', length: 255 })
   eye_colors: string;
 
-  //@ManyToOne((type) => Planet)
-  //@JoinTable()
-  //homeworld: Planet;
-
   @Column({ type: 'varchar', length: 255 })
   language: string;
 
-  @ManyToMany(() => People, { cascade: true })
-  @JoinTable()
-  people: string[];
-
-  @ManyToMany(() => Film, { cascade: true })
-  @JoinTable()
-  films: string[];
-
-  @Column('text')
-  url: string;
-
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-  created: Date;
-
-  @Column('timestamp', {
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
+  @ManyToOne(() => Planet, (planet) => planet.species, {
+    nullable: true,
   })
-  edited: Date;
+  homeworld: Planet;
+
+  @ManyToMany(() => People, (people) => people.species, {
+    nullable: true,
+  })
+  people: People[];
+
+  @ManyToMany(() => Film, (film) => film.species, {
+    nullable: true,
+  })
+  films: Film[];
+
+  // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  // created: Date;
+
+  // @Column('timestamp', {
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // edited: Date;
 }

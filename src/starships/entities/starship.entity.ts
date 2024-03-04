@@ -1,19 +1,22 @@
 // starship.entity.ts
+import { Film } from 'src/films/entities/film.entity';
+import { People } from 'src/people/entities/people.entity';
+import { DefaultEntity } from 'src/utils/entities/default.entity';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  // ManyToMany,
+  // PrimaryGeneratedColumn,
   // JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity({ name: 'starship' })
-export class Starship {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Starship extends DefaultEntity {
   @Column({ type: 'varchar', length: 255 })
   name: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  model: string;
 
   @Column({ type: 'varchar', length: 255 })
   starship_class: string;
@@ -48,23 +51,22 @@ export class Starship {
   @Column({ type: 'varchar', length: 255 })
   consumables: string;
 
-  // @ManyToMany(type => Film, { cascade: true })
-  // @JoinTable()
-  // films: Film[];
-
-  // @ManyToMany(type => People, { cascade: true })
-  // @JoinTable()
-  // pilots: People[];
-
-  @Column('text')
-  url: string;
-
-  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-  created: Date;
-
-  @Column('timestamp', {
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
+  @ManyToMany(() => Film, (film) => film.starships, {
+    nullable: true,
   })
-  edited: Date;
+  films: Film[];
+
+  @ManyToMany(() => People, (person) => person.starships, {
+    nullable: true,
+  })
+  pilots: People[];
+
+  // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  // created: Date;
+
+  // @Column('timestamp', {
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // edited: Date;
 }
