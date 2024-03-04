@@ -6,6 +6,21 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 // import { People } from 'src/people/entities/people.entity';
 
 export class CreateStarshipDto {
+  //id
+  @ApiProperty({ description: `The ID of the starship` })
+  @IsOptional()
+  id?: number;
+
+  //created
+  @ApiProperty({ description: `The date the starship was created` })
+  @IsOptional()
+  createdAt?: Date;
+
+  //edited
+  @ApiProperty({ description: `The date the starship was edited` })
+  @IsOptional()
+  updatedAt?: Date;
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
@@ -33,11 +48,11 @@ export class CreateStarshipDto {
 
   @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
-  films: number[];
+  films?: number[];
 
   @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
-  pilots: number[];
+  pilots?: number[];
 
   @ApiProperty()
   @IsString()
