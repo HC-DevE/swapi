@@ -13,6 +13,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   CreatePlanetDto,
   DefaultPlanetColumnsResponse,
+  UpdatePlanetDto,
 } from 'src/planets/dto/create-planet.dto';
 import { Planet } from '../entities/planet.entity';
 import { PlanetsService } from '../services/planets.service';
@@ -74,7 +75,7 @@ export class PlanetsController {
   })
   @Public() // makes the endpoint accessible to all
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlanetDto: CreatePlanetDto) {
+  update(@Param('id') id: string, @Body() updatePlanetDto: UpdatePlanetDto) {
     return this.planetsService.update(+id, updatePlanetDto);
   }
 
@@ -93,6 +94,7 @@ export class PlanetsController {
       residents: planet.residents.map(
         (resident) => `${process.env.API_BASE_URL}/people/${resident.id}`,
       ),
+      url: `${process.env.API_BASE_URL}/planets/${planet.id}`,
     };
   }
 }

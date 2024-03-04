@@ -94,9 +94,10 @@ export class SpeciesController {
       people: specie.people.map(
         (p) => `${process.env.API_BASE_URL}/people/${p.id}`,
       ),
-      homeworld: specie.homeworld.map(
-        `${process.env.API_BASE_URL}/planet/${specie.homeworld}`,
-      ),
+      // homeworld ??
+      homeworld: specie.homeworld
+        ? `${process.env.API_BASE_URL}/people/${specie.homeworld}`
+        : null,
     };
   }
 }

@@ -75,7 +75,7 @@ export class SpeciesService {
       );
     }
 
-    if (createSpecieDto.homeworld) {
+    if (!!createSpecieDto.homeworld) {
       specie.homeworld = await this.planetService.findOneById(
         +createSpecieDto.homeworld,
       );

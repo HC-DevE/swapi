@@ -20,4 +20,6 @@ export class PlanetResponseDto {
   films: string[];
 
   residents: string[];
+
+  url: string;
 }

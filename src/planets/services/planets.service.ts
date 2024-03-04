@@ -94,6 +94,7 @@ export class PlanetsService {
       );
     }
 
+    console.log(updatePlanetDto, planet);
     return this.planetRepository.save(
       this.planetRepository.merge(planet, {
         ...updatePlanetDto,
