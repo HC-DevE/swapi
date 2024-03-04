@@ -22,4 +22,6 @@ export class SpecieResponseDto {
   films: string[];
 
   people: string[];
+
+  url: string;
 }
