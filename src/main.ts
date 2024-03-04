@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import * as Sentry from '@sentry/node';
+import { SentryInterceptor } from './sentry.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +12,16 @@ async function bootstrap() {
 
   const enableCors = configService.get<boolean>('ENABLE_CORS');
   const port = configService.get<number>('DATABASE_PORT');
+
+  //add sentry
+  Sentry.init({
+    dsn: configService.get<string>('SENTRY_DSN'),
+  });
+
+  app.useGlobalInterceptors(new SentryInterceptor());
+
+  // // The request handler must be the first middleware on the app
+  // app.use(Sentry.Handlers.requestHandler());
 
   if (enableCors) {
     app.enableCors();
@@ -42,6 +54,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document); //localhost:3000/docs | localhost:8080/docs to get info of the API
+
+  // app.use(Sentry.Handlers.errorHandler());
 
   await app.listen(port || 3000);
 }
