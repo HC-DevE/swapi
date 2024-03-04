@@ -98,6 +98,8 @@ export class SpeciesController {
       homeworld: specie.homeworld
         ? `${process.env.API_BASE_URL}/people/${specie.homeworld}`
         : null,
+
+      url: `${process.env.API_BASE_URL}/species/${specie.id}`,
     };
   }
 }
