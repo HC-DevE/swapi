@@ -45,7 +45,7 @@ export class Specie extends DefaultEntity {
   @Column({ type: 'varchar', length: 255 })
   language: string;
 
-  @ManyToOne(() => Planet, (planet) => planet.species, {
+  @ManyToOne(() => Planet, (planet) => planet.id, {
     nullable: true,
   })
   homeworld: Planet;

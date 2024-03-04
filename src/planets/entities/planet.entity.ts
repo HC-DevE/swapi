@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 import { Film } from '../../films/entities/film.entity'; // Assurez-vous d'importer l'entité Film
 import { People } from '../../people/entities/people.entity'; // Assurez-vous d'importer l'entité People
-import { Specie } from 'src/species/entities/species.entity';
 import { DefaultEntity } from 'src/utils/entities/default.entity';
 
 @Entity()
@@ -43,7 +42,7 @@ export class Planet extends DefaultEntity {
   @Column({ type: 'varchar', length: 255 })
   surface_water: string;
 
-  @ManyToMany(() => Film, {
+  @ManyToMany(() => Film, (film) => film.planets, {
     nullable: true,
   }) //one to many
   films: Film[];
@@ -52,11 +51,6 @@ export class Planet extends DefaultEntity {
     nullable: true,
   })
   residents: People[];
-
-  @OneToMany(() => Specie, (specie) => specie.homeworld, {
-    nullable: true,
-  })
-  species: Specie[];
 
   // @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   // created: Date;
