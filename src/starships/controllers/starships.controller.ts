@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   UseGuards,
+  // UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -20,9 +21,11 @@ import {
 import { Starship } from 'src/starships/entities/starship.entity';
 import { StarshipsService } from 'src/starships/services/starships.service';
 import { StarshipResponseDTO } from '../dto/starship-api-response.dto';
+// import { SentryInterceptor } from 'src/sentry.interceptor';
 
 @ApiTags('starships') // put the name of the controller in swagger
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
+// @UseInterceptors(SentryInterceptor) // use the sentry interceptor
 @Controller('starships')
 export class StarshipsController {
   constructor(
