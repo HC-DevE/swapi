@@ -1,8 +1,11 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+// sentry
+import * as Sentry from '@sentry/node';
+import { SentryFilter } from './filters/sentry.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +17,15 @@ async function bootstrap() {
   if (enableCors) {
     app.enableCors();
   }
+
+  // Initialize Sentry by passing the DNS included in the .env
+  Sentry.init({
+    dsn: process.env.SENTRY_DNS,
+  });
+
+  // Import the filter globally, capturing all exceptions on all routes
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new SentryFilter(httpAdapter));
 
   app.useGlobalPipes(
     new ValidationPipe({
