@@ -27,7 +27,7 @@ export class UsersService {
     });
 
     if (user) {
-      throw new BadRequestException();
+      throw new BadRequestException('User with this email already exists');
     }
 
     const createdUser = await this.userRepository.create(createUserDto);
@@ -88,9 +88,19 @@ export class UsersService {
     const hash = createHash('sha256').update(refreshToken).digest('hex');
 
     const currentHashedRefreshToken = await bcrypt.hashSync(hash, 10);
-    return await this.userRepository.update(userId, {
+
+    const userFound = await this.userRepository.findOne({ id: userId });
+
+    if (!userFound) {
+      throw new NotFoundException(`User with id ${userId} does not exist`);
+    }
+
+    const updatedUser = await this.userRepository.save({
+      ...userFound,
       refreshToken: currentHashedRefreshToken,
     });
+
+    return updatedUser;
   }
 
   async removeRefreshToken(userId: number) {

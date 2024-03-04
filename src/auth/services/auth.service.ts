@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import config from '../../config';
 import { UsersService } from '../../users/services/users.service';
 import { PayloadToken } from './../models/token.model';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,10 @@ export class AuthService {
       }
     }
     return null;
+  }
+
+  async register(user: CreateUserDto) {
+    return this.usersService.create(user);
   }
 
   async login(user: PayloadToken) {
