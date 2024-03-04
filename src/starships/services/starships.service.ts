@@ -12,6 +12,8 @@ import {
 } from 'src/starships/dto/create-starship.dto';
 import { Starship } from 'src/starships/entities/starship.entity';
 import { Repository } from 'typeorm';
+import * as starshipJsonData from '../../../Json/starships.json';
+// import * as transportJsonData from '../../../Json/transport.json';
 
 @Injectable()
 export class StarshipsService {
@@ -112,5 +114,27 @@ export class StarshipsService {
       throw new NotFoundException(`Starship with id ${id} does not exist`);
 
     return this.starshipRepository.remove(starship);
+  }
+
+  //seed
+  async seedAll() {
+    // const data = seedStarshipDto;
+
+    const data = starshipJsonData;
+    console.log({ ...data[0].fields, id: data[0].pk });
+
+    // // Itérer sur chaque objet starship et l'insérer dans la base de données
+    // for (const item of data.fields) {
+    //   // console.log('Inserting starship: ', item.name);
+    //   const starship = starshipRepository.create(item);
+    //   await starshipRepository.save(starship);
+    // }
+
+    console.log('Starships seeded successfully');
+
+    try {
+      // await this.starshipRepository.save(data);
+      console.log('Starships seeded successfully');
+    } catch (error) {}
   }
 }
