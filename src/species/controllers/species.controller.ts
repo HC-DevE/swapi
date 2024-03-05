@@ -44,7 +44,7 @@ export class SpeciesController {
     return this.speciesService.create(createSpecieDto);
   }
 
-  /*@ApiOperation({ summary: 'seed species' })
+  @ApiOperation({ summary: 'seed species' })
   @ApiResponse({
     status: 201,
     type: Specie,
@@ -53,7 +53,7 @@ export class SpeciesController {
   @Get('seed')
   seedAll(): Promise<any> {
     return this.speciesService.seedAll();
-  }*/
+  }
 
   @ApiOperation({ summary: 'get all species' })
   @ApiResponse({

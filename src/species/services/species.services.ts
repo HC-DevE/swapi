@@ -10,7 +10,7 @@ import { CreateSpecieDto, UpdateSpecieDto } from '../dto/create-specie.dto';
 import { PlanetsService } from 'src/planets/services/planets.service';
 import { FilmsService } from 'src/films/services/films.service';
 import { PeopleService } from 'src/people/services/people.service';
-//import * as speciesData from '../../../Json/species.json';
+import * as speciesData from '../../../Json/species.json';
 
 @Injectable()
 export class SpeciesService {
@@ -130,11 +130,10 @@ export class SpeciesService {
     return this.specieRepository.remove(specie);
   }
 
-  /*async seedAll() {
+  async seedAll() {
     //console.log(speciesData);
 
     speciesData.forEach(async (item) => {
-
       const specie = new Specie();
 
       specie.name = item.fields.name;
@@ -152,36 +151,33 @@ export class SpeciesService {
 
       // gestion des relation
 
-      // avec planet
-      if(!!item.fields.homeworld){
-        const planet = await this.planetService.findOneById(item.fields.homeworld);
-        console.log("\nici\n");
-        specie.homeworld = planet;
-      } else {
-        specie.homeworld = null;
-      }
-      
-      // avec people
-      specie.people = [];
-      /*if(item.fields.people.length != 0) {
-        item.fields.people.forEach(async item => {
-          const peopleExist = await this.peopleService.findOneById(+item);
-          if(peopleExist) {
-            specie.people.push(peopleExist);
-          }
-        });
-      }
-
-
       const specieExist = await this.specieRepository.findOne(item.pk);
-      if (!specieExist) {
-        await this.specieRepository.save(specie);
-        //console.log("not", item.pk)
-      } else {
-        await this.specieRepository.update( { id: item.pk } , specie);
-        //console.log("yes", item.pk)
-      }
 
-    })
-  }*/
+      if (!specieExist) {
+        await this.create({
+          ...specie,
+          homeworld: item.fields.homeworld,
+          people: item.fields.people,
+          films: [],
+        });
+        //console.log("not founded", item.pk)
+      } else {
+        await this.update(item.pk, {
+          ...specie,
+          homeworld: item.fields.homeworld,
+          people: item.fields.people,
+          films: [],
+        });
+        //console.log("founded", item.pk)
+      }
+      //console.log(specie);
+    });
+
+    /*await this.specieRepository.delete({});
+    // Supprimer tous les enregistrements
+    //await this.specieRepository.clear();
+
+    // Réinitialiser la séquence à partir de 1
+    await this.specieRepository.query('ALTER SEQUENCE specie_id_seq RESTART WITH 1');*/
+  }
 }
