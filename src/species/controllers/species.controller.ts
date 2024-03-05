@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Delete,
   Param,
   Patch,
   Post,
@@ -91,6 +92,7 @@ export class SpeciesController {
   }
 
   //delete a specie by id
+  @Delete(':id')
   @ApiOperation({ summary: 'delete a specie' })
   remove(@Param('id') id: string) {
     return this.speciesService.delete(+id);

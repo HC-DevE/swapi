@@ -127,7 +127,9 @@ export class SpeciesService {
       throw new NotFoundException(`Specie with id ${id} does not exist`);
     }
 
-    return this.specieRepository.remove(specie);
+    await this.specieRepository.remove(specie);
+
+    return { message: 'Specie supprimée' };
   }
 
   async seedAll() {
