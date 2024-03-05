@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   UseGuards,
+  // UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -15,13 +16,18 @@ import { PeopleService } from 'src/people/services/people.service';
 import {
   CreateStarshipDto,
   DefaultStarshipColumnsResponse,
+  UpdateStarshipDto,
 } from 'src/starships/dto/create-starship.dto';
 import { Starship } from 'src/starships/entities/starship.entity';
 import { StarshipsService } from 'src/starships/services/starships.service';
 import { StarshipResponseDTO } from '../dto/starship-api-response.dto';
+import { Film } from 'src/films/entities/film.entity';
+import { People } from 'src/people/entities/people.entity';
+// import { SentryInterceptor } from 'src/sentry.interceptor';
 
 @ApiTags('starships') // put the name of the controller in swagger
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
+// @UseInterceptors(SentryInterceptor) // use the sentry interceptor
 @Controller('starships')
 export class StarshipsController {
   constructor(
@@ -39,6 +45,17 @@ export class StarshipsController {
   @Post()
   create(@Body() createStarshipDto: CreateStarshipDto): Promise<Starship> {
     return this.starshipsService.create(createStarshipDto);
+  }
+
+  @ApiOperation({ summary: 'seed starship' })
+  @ApiResponse({
+    status: 201,
+    type: Starship,
+  })
+  @Public() // makes the endpoint accessible to all
+  @Get('seed')
+  seedAll(): Promise<any> {
+    return this.starshipsService.seedAll();
   }
 
   @ApiOperation({ summary: 'get all starships' })
@@ -74,7 +91,7 @@ export class StarshipsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateStarshipDto: CreateStarshipDto,
+    @Body() updateStarshipDto: UpdateStarshipDto,
   ) {
     return this.starshipsService.update(+id, updateStarshipDto);
   }
@@ -88,11 +105,11 @@ export class StarshipsController {
   private toResponseDto(starship): StarshipResponseDTO {
     return {
       ...starship,
-      films: starship.films.map(
-        (film) => `${process.env.API_BASE_URL}/films/${film.id}`,
+      films: starship.films?.map(
+        (film: Film) => `${process.env.API_BASE_URL}/films/${film?.id}`,
       ),
-      pilots: starship.pilots.map(
-        (pilot) => `${process.env.API_BASE_URL}/people/${pilot.id}`,
+      pilots: starship.pilots?.map(
+        (pilot: People) => `${process.env.API_BASE_URL}/people/${pilot?.id}`,
       ),
     };
   }

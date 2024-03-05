@@ -12,12 +12,17 @@ import {
 } from 'src/starships/dto/create-starship.dto';
 import { Starship } from 'src/starships/entities/starship.entity';
 import { Repository } from 'typeorm';
+import * as starshipJsonData from '../../../Json/starships.json';
+import * as transportJsonData from '../../../Json/transport.json';
+import * as vehicleJsonData from '../../../Json/vehicles.json';
+// import { Vehicle } from 'src/vehicules/entities/vehicule.entity';
 
 @Injectable()
 export class StarshipsService {
   constructor(
     @InjectRepository(Starship)
     private starshipRepository: Repository<Starship>,
+    // private vehicleRepository: Repository<Vehicle>,
     private filmService: FilmsService,
     private peopleService: PeopleService,
   ) {}
@@ -94,12 +99,13 @@ export class StarshipsService {
       pilots = await this.peopleService.findAllByIds(updateStarshipDto.pilots);
     }
 
-    return this.starshipRepository.save(
-      this.starshipRepository.merge(starship, {
+    return this.starshipRepository.update(
+      { id },
+      {
         ...updateStarshipDto,
         films,
         pilots,
-      }),
+      },
     );
   }
 
@@ -111,5 +117,65 @@ export class StarshipsService {
       throw new NotFoundException(`Starship with id ${id} does not exist`);
 
     return this.starshipRepository.remove(starship);
+  }
+
+  //seed
+  async seedAll() {
+    const transportJsonData2 = [
+      transportJsonData[0],
+      transportJsonData[1],
+      transportJsonData[2],
+      transportJsonData[3],
+      transportJsonData[4],
+      transportJsonData[5],
+      transportJsonData[6],
+      transportJsonData[7],
+      transportJsonData[8],
+      transportJsonData[9],
+      transportJsonData[10],
+    ];
+
+    for (const transportItem of transportJsonData2) {
+      const starshipDetail = starshipJsonData.find(
+        (s) => s.pk === transportItem.pk,
+      );
+      if (starshipDetail) {
+        const createStarshipDto = {
+          ...transportItem.fields,
+          ...starshipDetail.fields,
+          updatedAt: new Date(transportItem.fields.edited),
+          createdAt: new Date(transportItem.fields.created),
+          id: starshipDetail.pk,
+        };
+
+        // const starship = new Starship();
+
+        // Object.assign(starship, createStarshipDto);
+        // console.log(starship);
+        const newStarship = await this.create(createStarshipDto);
+        console.log(newStarship);
+        // const starship = this.starshipRepository.create({ ...transportItem, ...starshipDetail });
+        // await this.starshipRepository.save(starship);
+      }
+
+      const vehicleDetail = vehicleJsonData.find(
+        (v) => v.pk === transportItem.pk,
+      );
+      if (vehicleDetail) {
+        // const newVehicle = { ...transportItem, ...vehicleDetail };
+        // console.log('vehicle', {
+        //   ...transportItem.fields,
+        //   ...vehicleDetail?.fields,
+        //   id: transportItem.pk,
+        // });
+        //   const vehicle = this.vehicleRepository.create(newVehicle);
+        //   await this.vehicleRepository.save(vehicle);
+      }
+    }
+
+    try {
+      // await this.starshipRepository.save(data);
+      console.log('Starships seeded successfully');
+    } catch (error) {}
   }
 }

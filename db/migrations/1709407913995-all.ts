@@ -1,14 +1,14 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class all1709131515889 implements MigrationInterface {
-  name = 'all1709131515889';
+export class all1709407913995 implements MigrationInterface {
+  name = 'all1709407913995';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE "specie" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "edited_at" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying(255) NOT NULL, "classification" character varying(255) NOT NULL, "designation" character varying(255) NOT NULL, "average_height" character varying(255) NOT NULL, "average_lifespan" character varying(255) NOT NULL, "hair_colors" character varying(255) NOT NULL, "skin_colors" character varying(255) NOT NULL, "eye_colors" character varying(255) NOT NULL, "language" character varying(255) NOT NULL, "homeworldId" integer, CONSTRAINT "PK_ae8a78cf6f1cffa5f4cfa7d58f4" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "planet" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "edited_at" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying(255) NOT NULL, "diameter" character varying(255) NOT NULL, "rotation_period" character varying(255) NOT NULL, "orbital_period" character varying(255) NOT NULL, "gravity" character varying(255) NOT NULL, "population" character varying(255) NOT NULL, "climate" character varying(255) NOT NULL, "terrain" character varying(255) NOT NULL, "surface_water" character varying(255) NOT NULL, CONSTRAINT "PK_cb7506671ad0f19d6287ee4bfb7" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "planet" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "edited_at" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying(255) NOT NULL, "diameter" character varying(255) NOT NULL, "rotation_period" character varying(255) NOT NULL, "orbital_period" character varying(255) NOT NULL, "gravity" character varying(255) NOT NULL, "population" character varying(255) NOT NULL, "climate" character varying(255) NOT NULL, "terrain" character varying(255) NOT NULL, "surface_water" character varying(255) NOT NULL, CONSTRAINT "PK_cb7506671ad0f19d6287ee4bfb7" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "specie" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "edited_at" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying(255) NOT NULL, "classification" character varying(255) NOT NULL, "designation" character varying(255) NOT NULL, "average_height" character varying(255) NOT NULL, "average_lifespan" character varying(255) NOT NULL, "hair_colors" character varying(255) NOT NULL, "skin_colors" character varying(255) NOT NULL, "eye_colors" character varying(255) NOT NULL, "language" character varying(255) NOT NULL, "homeworldId" integer, CONSTRAINT "PK_ae8a78cf6f1cffa5f4cfa7d58f4" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "starship" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "edited_at" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying(255) NOT NULL, "model" character varying(255) NOT NULL, "starship_class" character varying(255) NOT NULL, "manufacturer" character varying(255) NOT NULL, "cost_in_credits" character varying(255) NOT NULL, "length" character varying(255) NOT NULL, "crew" character varying(255) NOT NULL, "passengers" character varying(255) NOT NULL, "max_atmosphering_speed" character varying(255) NOT NULL, "hyperdrive_rating" character varying(255) NOT NULL, "MGLT" character varying(255) NOT NULL, "cargo_capacity" character varying(255) NOT NULL, "consumables" character varying(255) NOT NULL, CONSTRAINT "PK_398cab92a55d977f03881dda8e1" PRIMARY KEY ("id"))`,
@@ -273,7 +273,7 @@ export class all1709131515889 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "people"`);
     await queryRunner.query(`DROP TABLE "vehicle"`);
     await queryRunner.query(`DROP TABLE "starship"`);
-    await queryRunner.query(`DROP TABLE "planet"`);
     await queryRunner.query(`DROP TABLE "specie"`);
+    await queryRunner.query(`DROP TABLE "planet"`);
   }
 }
