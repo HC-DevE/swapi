@@ -16,6 +16,7 @@ import { SpeciesService } from 'src/species/services/species.services';
 import { StarshipsService } from 'src/starships/services/starships.service';
 import { VehiclesService } from 'src/vehicules/services/vehicules.service';
 import { Repository } from 'typeorm';
+import * as peopleData from '../../../Json/people.json';
 
 @Injectable()
 export class PeopleService {
@@ -36,14 +37,14 @@ export class PeopleService {
 
   async findAll() {
     return this.peopleRepository.find({
-      relations: ['films', 'species', 'vehicles', 'homeworld'],
+      relations: ['films', 'species', 'vehicles', 'homeworld', 'starships'],
     });
   }
 
   //find all by ids
   async findAllByIds(ids: number[]) {
     return await this.peopleRepository.findByIds(ids, {
-      relations: ['films', 'species', 'vehicles', 'homeworld'],
+      relations: ['films', 'species', 'vehicles', 'homeworld', 'starships'],
     });
   }
 
@@ -53,7 +54,7 @@ export class PeopleService {
 
   async findOneById(peopleId: number) {
     return await this.peopleRepository.findOne(peopleId, {
-      relations: ['films', 'species', 'vehicles', 'homeworld'],
+      relations: ['films', 'species', 'vehicles', 'homeworld', 'starships'],
     });
   }
 
@@ -112,7 +113,7 @@ export class PeopleService {
   //update one
   async update(id: number, updatePeopleDto: UpdatePeopleDto) {
     const people = await this.peopleRepository.findOne(id, {
-      relations: ['films', 'species', 'vehicles', 'homeworld'],
+      relations: ['films', 'species', 'vehicles', 'homeworld', 'starships'],
     });
 
     if (!people) throw new BadRequestException('People not found');
@@ -137,6 +138,7 @@ export class PeopleService {
     let planet = null;
     if (updatePeopleDto.homeworld) {
       planet = await this.planetsService.findOneById(updatePeopleDto.homeworld);
+      //if(updatePeopleDto.homeworld ===  1 || updatePeopleDto.homeworld ===2) console.log(updatePeopleDto);
     }
 
     let starships = [];
@@ -163,5 +165,32 @@ export class PeopleService {
   async delete(id: number) {
     const deletePeople = await this.peopleRepository.delete(id);
     return deletePeople;
+  }
+
+  //seeders
+  async seedAll() {
+    peopleData.forEach(async (item) => {
+      const createPeopleDto = {
+        ...item.fields,
+        homeworld: +item.fields.homeworld,
+        createdAt: new Date(item.fields.created),
+        updatedAt: new Date(item.fields.created),
+        id: item.pk,
+        species: [],
+        vehicles: [],
+        films: [],
+        starships: [],
+      };
+
+      const peopleExist = await this.peopleRepository.findOne(item.pk);
+
+      if (!peopleExist) {
+        await this.create(createPeopleDto);
+        //console.log("not founded", item.pk)
+      } else {
+        await this.update(item.pk, createPeopleDto);
+        //console.log("founded", item.pk)
+      }
+    });
   }
 }

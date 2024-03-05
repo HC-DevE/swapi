@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -8,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-// import { Public } from 'src/auth/decorators/public.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   CreatePeopleDto,
@@ -32,6 +33,17 @@ export class PeopleController {
   @Post()
   create(@Body() createPeopleDto: CreatePeopleDto) {
     return this.peopleService.create(createPeopleDto);
+  }
+
+  @ApiOperation({ summary: 'seed people' })
+  @ApiResponse({
+    status: 201,
+    type: People,
+  })
+  @Public() // makes the endpoint accessible to all
+  @Get('seed')
+  seedAll(): Promise<any> {
+    return this.peopleService.seedAll();
   }
 
   @ApiOperation({ summary: 'get all people' })
@@ -68,6 +80,7 @@ export class PeopleController {
   }
 
   //delete a people by id
+  @Delete(':id')
   @ApiOperation({ summary: 'delete a people' })
   remove(@Param('id') id: string) {
     return this.peopleService.delete(+id);

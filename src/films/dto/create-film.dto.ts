@@ -8,47 +8,47 @@ export class CreateFilmDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  readonly name: string;
+  readonly title: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  readonly model: string;
+  episod_id: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  readonly film_class: string;
+  opening_crawl: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  readonly manufacturer: string;
+  director: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  readonly cost_in_credits: string;
-
-  @ApiProperty({ type: () => [Number] })
-  planets: number[];
-
-  @ApiProperty({ type: () => [Number] })
-  starships: number[];
-
-  @ApiProperty({ type: () => [Number] })
-  vehicles: number[];
-
-  @ApiProperty({ type: () => [Number] })
-  species: number[];
-
-  @ApiProperty({ type: () => [Number] })
-  characters: number[];
+  producer: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  readonly length: string;
+  release_date: string;
+
+  @ApiProperty({ type: () => [Number], required: false })
+  planets?: number[];
+
+  @ApiProperty({ type: () => [Number], required: false })
+  starships?: number[];
+
+  @ApiProperty({ type: () => [Number], required: false })
+  vehicles?: number[];
+
+  @ApiProperty({ type: () => [Number], required: false })
+  species?: number[];
+
+  @ApiProperty({ type: () => [Number], required: false })
+  characters?: number[];
 }
 
 // update-film.dto.ts

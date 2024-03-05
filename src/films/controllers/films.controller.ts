@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-// import { Public } from 'src/auth/decorators/public.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   CreateFilmDto,
@@ -35,6 +35,17 @@ export class FilmsController {
     return this.filmsService.create(createFilmDto);
   }
 
+  @ApiOperation({ summary: 'seed films' })
+  @ApiResponse({
+    status: 201,
+    type: Film,
+  })
+  @Public() // makes the endpoint accessible to all
+  @Get('seed')
+  seedAll(): Promise<any> {
+    return this.filmsService.seedAll();
+  }
+
   @ApiOperation({ summary: 'get all films' })
   @ApiResponse({
     status: 200,
@@ -42,8 +53,9 @@ export class FilmsController {
   })
   // @Public() // makes the endpoint accessible to all
   @Get()
-  findAll() {
-    return this.filmsService.findAll();
+  async findAll() {
+    const films = await this.filmsService.findAll();
+    return films.map((planet) => this.toResponseDto(planet));
   }
 
   @ApiOperation({ summary: 'get a film by id' })
@@ -54,7 +66,8 @@ export class FilmsController {
   // @Public() // makes the endpoint accessible to all
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.filmsService.findOneById(+id);
+    const film = this.filmsService.findOneById(+id);
+    return this.toResponseDto(film);
   }
 
   @ApiOperation({ summary: 'update a film' })
@@ -72,5 +85,27 @@ export class FilmsController {
   @ApiOperation({ summary: 'delete a film' })
   remove(@Param('id') id: string) {
     return this.filmsService.delete(+id);
+  }
+
+  private toResponseDto(film): any {
+    return {
+      ...film,
+      planets: film.planets.map(
+        (planet) => `${process.env.API_BASE_URL}/planets/${planet.id}`,
+      ),
+      species: film.species.map(
+        (specie) => `${process.env.API_BASE_URL}/species/${specie.id}`,
+      ),
+      starships: film.starships.map(
+        (starship) => `${process.env.API_BASE_URL}/starships/${starship.id}`,
+      ),
+      vehicles: film.vehicles.map(
+        (vehicle) => `${process.env.API_BASE_URL}/vehicles/${vehicle.id}`,
+      ),
+      characters: film.characters.map(
+        (resident) => `${process.env.API_BASE_URL}/people/${resident.id}`,
+      ),
+      url: `${process.env.API_BASE_URL}/films/${film.id}`,
+    };
   }
 }

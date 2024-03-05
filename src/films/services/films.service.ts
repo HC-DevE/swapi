@@ -13,6 +13,7 @@ import { SpeciesService } from 'src/species/services/species.services';
 import { StarshipsService } from 'src/starships/services/starships.service';
 import { VehiclesService } from 'src/vehicules/services/vehicules.service';
 import { Repository } from 'typeorm';
+import * as filmsData from '../../../Json/films.json';
 
 @Injectable()
 export class FilmsService {
@@ -62,7 +63,7 @@ export class FilmsService {
   //create one
   async create(createFilmDto: CreateFilmDto) {
     const existingFilm = await this.filmRepository.findOne({
-      where: { title: createFilmDto.name },
+      where: { title: createFilmDto.title },
     });
 
     if (existingFilm)
@@ -171,5 +172,28 @@ export class FilmsService {
   async delete(id: number) {
     const deleteFilm = await this.filmRepository.delete(id);
     return deleteFilm;
+  }
+
+  async seedAll() {
+    filmsData.forEach(async (item) => {
+      const createFilmDto = {
+        ...item.fields,
+        opening_crawl: item.fields.opening_crawl.substring(0, 100),
+        episod_id: item.fields.episode_id.toString(),
+        createdAt: new Date(item.fields.created),
+        updatedAt: new Date(item.fields.created),
+        id: item.pk,
+      };
+
+      const peopleExist = await this.filmRepository.findOne(item.pk);
+
+      if (!peopleExist) {
+        await this.create(createFilmDto);
+        //console.log("not founded", item.pk)
+      } else {
+        await this.update(item.pk, createFilmDto);
+        //console.log("founded", item.pk)
+      }
+    });
   }
 }
