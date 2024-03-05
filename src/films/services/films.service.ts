@@ -60,10 +60,54 @@ export class FilmsService {
   }
 
   //create one
-  async create(createSratshipDto: CreateFilmDto) {
+  async create(createFilmDto: CreateFilmDto) {
+    const existingFilm = await this.filmRepository.findOne({
+      where: { title: createFilmDto.name },
+    });
+
+    if (existingFilm)
+      throw new BadRequestException('Film with this title already exists');
+
     const film = new Film();
-    Object.assign(film, createSratshipDto);
-    return await this.filmRepository.save(film);
+    Object.assign(film, createFilmDto);
+
+    //characters
+    if (createFilmDto.characters) {
+      film.characters = await this.peopleService.findAllByIds(
+        createFilmDto.characters,
+      );
+    }
+
+    //planets
+    if (film.planets?.length && createFilmDto.planets) {
+      film.planets = await this.planetsService.findAllByIds(
+        createFilmDto.planets,
+      );
+    }
+
+    //species
+    if (film.species?.length && createFilmDto.species) {
+      film.species = await this.speciesService.findAllByIds(
+        createFilmDto.species,
+      );
+    }
+
+    //starships
+    if (film.starships?.length && createFilmDto.starships) {
+      film.starships = await this.starshipsService.findAllByIds(
+        createFilmDto.starships,
+      );
+    }
+
+    //vehicles
+    if (film.vehicles?.length && createFilmDto.vehicles) {
+      film.vehicles = await this.vehiclesService.findAllByIds(
+        createFilmDto.vehicles,
+      );
+    }
+
+    const newFilm = await this.filmRepository.save(film);
+    return newFilm;
   }
 
   //update one
