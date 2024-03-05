@@ -12,6 +12,8 @@ import { UpdateVehicleDto } from '../dto/update-vehicule.dto';
 import { FilmsService } from 'src/films/services/films.service';
 import { PeopleService } from 'src/people/services/people.service';
 // import { StarshipResponseDTO } from 'src/starships/dto/starship-api-response.dto';
+import * as vehicleJsonData from '../../../Json/vehicles.json';
+import * as transportJsonData from '../../../Json/transport.json';
 
 @Injectable()
 export class VehiclesService {
@@ -45,26 +47,28 @@ export class VehiclesService {
   //create one
   async create(createVehicleDto: CreateVehicleDto) {
     const vehicule = await this.vehicleRepository.findOne({
-      where: { name: createVehicleDto.nom },
+      where: { name: createVehicleDto.name },
     });
 
     if (vehicule)
       throw new BadRequestException('Véhicule avec ce nom existe déjà');
 
-    let films = [];
+    const vehicle = new Vehicle();
+    Object.assign(vehicle, createVehicleDto);
+
     if (createVehicleDto.films) {
-      films = await this.filmsService.findAllByIds(createVehicleDto.films);
-    }
-    let pilots = [];
-    if (createVehicleDto.pilots) {
-      pilots = await this.peopleService.findAllByIds(createVehicleDto.pilots);
+      vehicle.films = await this.filmsService.findAllByIds(
+        createVehicleDto.films,
+      );
     }
 
-    const newVehicle = this.vehicleRepository.create({
-      ...createVehicleDto,
-      films,
-      pilots,
-    });
+    if (createVehicleDto.pilots) {
+      vehicle.pilots = await this.peopleService.findAllByIds(
+        createVehicleDto.pilots,
+      );
+    }
+
+    const newVehicle = this.vehicleRepository.create(vehicle);
 
     return await this.vehicleRepository.save(newVehicle);
   }
@@ -102,5 +106,37 @@ export class VehiclesService {
 
     await this.vehicleRepository.remove(vehicle);
     return { message: 'Véhicule supprimé' };
+  }
+
+  //seed
+  async seedAll() {
+    for (const transportItem of transportJsonData) {
+      try {
+        const vehicleDetail = vehicleJsonData.find(
+          (v) => v.pk === transportItem.pk,
+        );
+
+        if (vehicleDetail) {
+          const createVehicle = {
+            ...transportItem.fields,
+            ...vehicleDetail.fields,
+            updatedAt: new Date(transportItem.fields.edited),
+            createdAt: new Date(transportItem.fields.created),
+            id: vehicleDetail.pk,
+          };
+          const vehicleExists = await this.vehicleRepository.findOne(
+            createVehicle.id,
+          );
+          if (vehicleExists) {
+            await this.update(createVehicle.id, createVehicle);
+          } else {
+            await this.create(createVehicle);
+          }
+        }
+        console.log('Starships seeded successfully');
+      } catch (error) {
+        console.log('Error seeding vehicles', error);
+      }
+    }
   }
 }

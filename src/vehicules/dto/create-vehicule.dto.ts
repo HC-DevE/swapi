@@ -5,57 +5,67 @@ import { IsNotEmpty, IsString, IsOptional, IsArray } from 'class-validator';
 export class CreateVehicleDto {
   @IsNotEmpty()
   @IsString()
-  readonly nom: string;
+  readonly name: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly modèle: string;
+  readonly vehicle_class: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly classe_vehicule: string;
+  readonly passengers: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly fabricant: string;
+  readonly model: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly coût_en_crédits: string;
+  readonly max_atmosphering_speed: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly longueur: string;
+  readonly crew: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly équipage: string;
+  readonly consumables: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly passagers: string;
+  readonly cargo_capacity: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly vitesse_max_atmosphérique: string;
+  readonly manufacturer: string;
 
+  @ApiProperty({ type: () => String, required: true })
   @IsNotEmpty()
   @IsString()
-  readonly capacité_cargo: string;
+  readonly cost_in_credits: string;
 
-  @IsNotEmpty()
+  @ApiProperty({ type: () => String, required: true })
+  @IsOptional()
   @IsString()
-  readonly consommables: string;
+  readonly length: string;
 
   @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
   @IsArray()
-  readonly films: number[];
+  readonly films?: number[];
 
   @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
   @IsArray()
-  readonly pilots: number[];
+  readonly pilots?: number[];
 }
 
 export class DefaultVehicleColumnsResponse extends CreateVehicleDto {

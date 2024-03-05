@@ -37,6 +37,30 @@ export class PlanetsController {
     status: 201,
     type: Planet,
   })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Conflict',
+  })
+  @ApiResponse({
+    status: 498,
+    description: 'Token Expired',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+  })
+  @ApiResponse({
+    status: 503,
+    description: 'Service Unavailable',
+  })
   @Public() // makes the endpoint accessible to all
   @Post()
   create(@Body() createPlanetDto: CreatePlanetDto) {

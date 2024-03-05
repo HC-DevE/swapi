@@ -41,6 +41,30 @@ export class StarshipsController {
     status: 201,
     type: Starship,
   })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Conflict',
+  })
+  @ApiResponse({
+    status: 498,
+    description: 'Token Expired',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+  })
+  @ApiResponse({
+    status: 503,
+    description: 'Service Unavailable',
+  })
   @Public() // makes the endpoint accessible to all
   @Post()
   create(@Body() createStarshipDto: CreateStarshipDto): Promise<Starship> {
@@ -89,11 +113,15 @@ export class StarshipsController {
   })
   @Public() // makes the endpoint accessible to all
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateStarshipDto: UpdateStarshipDto,
   ) {
-    return this.starshipsService.update(+id, updateStarshipDto);
+    const updatedStarship = await this.starshipsService.update(
+      +id,
+      updateStarshipDto,
+    );
+    return this.toResponseDto(updatedStarship);
   }
 
   //delete a starship by id

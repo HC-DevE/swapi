@@ -17,6 +17,9 @@ import {
 } from '../dto/create-vehicule.dto';
 import { Vehicle } from '../entities/vehicule.entity';
 import { VehiclesService } from '../services/vehicules.service';
+import { vehicleResponseDTO } from '../dto/update-vehicule.dto';
+import { Film } from 'src/films/entities/film.entity';
+import { People } from 'src/people/entities/people.entity';
 
 @ApiTags('vehicles') // put the name of the controller in swagger
 @UseGuards(JwtAuthGuard) //  makes the all routs as private by default
@@ -97,5 +100,17 @@ export class VehiclesController {
   @ApiOperation({ summary: 'delete a vehicle' })
   remove(@Param('id') id: string) {
     return this.vehiclesService.delete(+id);
+  }
+
+  private toResponseDto(vehicle): vehicleResponseDTO {
+    return {
+      ...vehicle,
+      films: vehicle.films?.map(
+        (film: Film) => `${process.env.API_BASE_URL}/films/${film?.id}`,
+      ),
+      pilots: vehicle.pilots?.map(
+        (pilot: People) => `${process.env.API_BASE_URL}/people/${pilot?.id}`,
+      ),
+    };
   }
 }
