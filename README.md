@@ -122,6 +122,8 @@ When logging in, it returns the two tokens.
 The refresh token is encrypted in the database, and is reset every time the user logs in or out.
 
 When an access token expires, the endpoint will return a custom error.
+
+Le modèle de Richardson est un système de maturité pour concevoir des API REST. Il comprend quatre niveaux, allant de 0 à 3, qui décrivent progressivement comment utiliser les méthodes HTTP, les ressources, les hypermédias (HATEOAS), et d'autres concepts RESTful de manière efficace. Pour respecter ce modèle dans un projet, on commence par utiliser des URIs et des méthodes HTTP appropriées pour les opérations CRUD, avant d'introduire des représentations de ressources cohérentes et enfin d'implémenter HATEOAS pour rendre l'API auto-découvrable. Ce processus aide à créer des API REST bien structurées et faciles à utiliser.
 httpStatus = 498
 message = Token expired
 
