@@ -1,6 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsString, IsNumber, IsOptional } from 'class-validator';
-import { Film } from 'src/films/entities/film.entity';
 import { Planet } from 'src/planets/entities/planet.entity';
 
 export class CreateSpecieDto {
@@ -46,11 +45,13 @@ export class CreateSpecieDto {
   @IsString()
   readonly language: string;
 
-  @ApiProperty({ type: () => Film, required: false })
+  // @ApiProperty({ type: () => Film, required: false })
+  @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
   films: number[];
 
-  @ApiProperty({ type: () => Number, required: false })
+  // @ApiProperty({ type: () => Number, required: false })
+  @ApiProperty({ type: () => [Number], required: false })
   @IsOptional()
   people: number[];
 }

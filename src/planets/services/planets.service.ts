@@ -154,23 +154,6 @@ export class PlanetsService {
         await this.planetRepository.update({ id: +item.pk }, planet);
         //console.log("yes", item.pk)
       }
-
-      //await this.planetRepository.update({id: +item.pk}, planet);
     });
-
-    /*for (const item of planetsData) {
-       const planet = new Planet();
-       planet.name = item.name;
-       planet.diameter = item.diameter;
-       planet.rotation_period = item.rotation_period;
-       planet.orbital_period = item.orbital_period;
-       planet.gravity = item.gravity;
-       planet.population = item.population;
-       planet.climate = item.climate;
-       planet.terrain = item.terrain;
-       planet.surface_water = item.surface_water;
-  
-       await planetRepository.save(planet);
-     }*/
   }
 }

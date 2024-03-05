@@ -12,6 +12,7 @@ import { CreateSpecieDto, UpdateSpecieDto } from '../dto/create-specie.dto';
 import { PlanetsService } from 'src/planets/services/planets.service';
 import { FilmsService } from 'src/films/services/films.service';
 import { PeopleService } from 'src/people/services/people.service';
+//import * as speciesData from '../../../Json/species.json';
 
 @Injectable()
 export class SpeciesService {
@@ -132,4 +133,59 @@ export class SpeciesService {
 
     return this.specieRepository.remove(specie);
   }
+
+  /*async seedAll() {
+    //console.log(speciesData);
+
+    speciesData.forEach(async (item) => {
+
+      const specie = new Specie();
+
+      specie.name = item.fields.name;
+      specie.designation = item.fields.designation;
+      specie.classification = item.fields.classification;
+      specie.eye_colors = item.fields.eye_colors;
+      specie.skin_colors = item.fields.skin_colors;
+      specie.language = item.fields.language;
+      specie.hair_colors = item.fields.hair_colors;
+      specie.average_height = item.fields.average_height;
+      specie.average_lifespan = item.fields.average_lifespan;
+      specie.createdAt = new Date(item.fields.created);
+      specie.updatedAt = new Date(item.fields.edited);
+      specie.id = item.pk;
+
+      // gestion des relation
+
+      // avec planet
+      if(!!item.fields.homeworld){
+        const planet = await this.planetService.findOneById(item.fields.homeworld);
+        console.log("\nici\n");
+        specie.homeworld = planet;
+      } else {
+        specie.homeworld = null;
+      }
+      
+      // avec people
+      specie.people = [];
+      /*if(item.fields.people.length != 0) {
+        item.fields.people.forEach(async item => {
+          const peopleExist = await this.peopleService.findOneById(+item);
+          if(peopleExist) {
+            specie.people.push(peopleExist);
+          }
+        });
+      }
+
+
+      const specieExist = await this.specieRepository.findOne(item.pk);
+      if (!specieExist) {
+        await this.specieRepository.save(specie);
+        //console.log("not", item.pk)
+      } else {
+        await this.specieRepository.update( { id: item.pk } , specie);
+        //console.log("yes", item.pk)
+      }
+
+    })
+  }*/
 }

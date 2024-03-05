@@ -44,6 +44,17 @@ export class SpeciesController {
     return this.speciesService.create(createSpecieDto);
   }
 
+  /*@ApiOperation({ summary: 'seed species' })
+  @ApiResponse({
+    status: 201,
+    type: Specie,
+  })
+  @Public() // makes the endpoint accessible to all
+  @Get('seed')
+  seedAll(): Promise<any> {
+    return this.speciesService.seedAll();
+  }*/
+
   @ApiOperation({ summary: 'get all species' })
   @ApiResponse({
     status: 200,
@@ -96,7 +107,7 @@ export class SpeciesController {
       ),
       // homeworld ??
       homeworld: specie.homeworld
-        ? `${process.env.API_BASE_URL}/people/${specie.homeworld}`
+        ? `${process.env.API_BASE_URL}/planets/${specie.homeworld.id}`
         : null,
 
       url: `${process.env.API_BASE_URL}/species/${specie.id}`,
