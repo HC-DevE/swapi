@@ -42,7 +42,7 @@ export class PlanetsController {
     return this.planetsService.create(createPlanetDto);
   }
 
-  @ApiOperation({ summary: 'seed planet' })
+  @ApiOperation({ summary: 'seed planets' })
   @ApiResponse({
     status: 201,
     type: Planet,
