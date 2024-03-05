@@ -12,6 +12,8 @@ import {
 } from 'src/planets/dto/create-planet.dto';
 import { Planet } from 'src/planets/entities/planet.entity';
 import { Repository } from 'typeorm';
+// import * as fs from 'fs';
+import * as planetsData from '../../../Json/planets.json';
 
 @Injectable()
 export class PlanetsService {
@@ -113,5 +115,58 @@ export class PlanetsService {
     }
 
     return this.planetRepository.remove(planet);
+  }
+
+  // seeds planet
+  async seedAll() {
+    /*console.log(
+      'Insertion des données des planètes avec les fields:',
+      planetsData,
+    );*/
+
+    planetsData.forEach(async (item) => {
+      //console.log(item.fields);
+      const planet = new Planet();
+
+      planet.name = item.fields.name;
+      planet.name = item.fields.name;
+      planet.diameter = item.fields.diameter;
+      planet.rotation_period = item.fields.rotation_period;
+      planet.orbital_period = item.fields.orbital_period;
+      planet.gravity = item.fields.gravity;
+      planet.population = item.fields.population;
+      planet.climate = item.fields.climate;
+      planet.terrain = item.fields.terrain;
+      planet.surface_water = item.fields.surface_water;
+      planet.createdAt = new Date(item.fields.created);
+      planet.updatedAt = new Date(item.fields.edited);
+      planet.id = item.pk;
+
+      const planetExist = await this.planetRepository.findOne(+item.pk);
+      if (!planetExist) {
+        await this.planetRepository.save(planet);
+        //console.log("not", item.pk)
+      } else {
+        await this.planetRepository.update({ id: +item.pk }, planet);
+        //console.log("yes", item.pk)
+      }
+
+      //await this.planetRepository.update({id: +item.pk}, planet);
+    });
+
+    /*for (const item of planetsData) {
+       const planet = new Planet();
+       planet.name = item.name;
+       planet.diameter = item.diameter;
+       planet.rotation_period = item.rotation_period;
+       planet.orbital_period = item.orbital_period;
+       planet.gravity = item.gravity;
+       planet.population = item.population;
+       planet.climate = item.climate;
+       planet.terrain = item.terrain;
+       planet.surface_water = item.surface_water;
+  
+       await planetRepository.save(planet);
+     }*/
   }
 }

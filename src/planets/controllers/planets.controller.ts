@@ -42,6 +42,17 @@ export class PlanetsController {
     return this.planetsService.create(createPlanetDto);
   }
 
+  @ApiOperation({ summary: 'seed planet' })
+  @ApiResponse({
+    status: 201,
+    type: Planet,
+  })
+  @Public() // makes the endpoint accessible to all
+  @Get('seed')
+  seedAll(): Promise<any> {
+    return this.planetsService.seedAll();
+  }
+
   @ApiOperation({ summary: 'get all planets' })
   @ApiResponse({
     status: 200,
