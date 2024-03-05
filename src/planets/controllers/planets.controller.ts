@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -91,6 +92,7 @@ export class PlanetsController {
   }
 
   //delete a planet by id
+  @Delete(':id')
   @ApiOperation({ summary: 'delete a planet' })
   remove(@Param('id') id: string) {
     return this.planetsService.delete(+id);

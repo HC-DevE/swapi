@@ -118,7 +118,9 @@ export class PlanetsService {
       throw new NotFoundException(`Planet with id ${id} does not exist`);
     }
 
-    return this.planetRepository.remove(planet);
+    await this.planetRepository.remove(planet);
+
+    return { message: 'Planet supprimée' };
   }
 
   // seeds planet
