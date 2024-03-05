@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { SpeciesController } from './controllers/species.controller';
 import { SpeciesService } from './services/species.services';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -11,9 +11,9 @@ import { PeopleModule } from 'src/people/people.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Specie]),
-    PlanetsModule,
-    FilmsModule,
-    PeopleModule,
+    forwardRef(() => PlanetsModule),
+    forwardRef(() => FilmsModule),
+    forwardRef(() => PeopleModule),
   ],
   controllers: [SpeciesController],
   providers: [SpeciesService, JwtStrategy],

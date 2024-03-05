@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
 import { Vehicle } from './entities/vehicule.entity';
@@ -8,7 +8,11 @@ import { PeopleModule } from 'src/people/people.module';
 import { FilmsModule } from 'src/films/films.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Vehicle]), PeopleModule, FilmsModule],
+  imports: [
+    TypeOrmModule.forFeature([Vehicle]),
+    forwardRef(() => FilmsModule),
+    forwardRef(() => PeopleModule),
+  ],
   controllers: [VehiclesController],
   providers: [VehiclesService, JwtStrategy],
   exports: [VehiclesService],

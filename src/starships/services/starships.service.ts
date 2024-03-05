@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilmsService } from 'src/films/services/films.service';
@@ -23,7 +25,8 @@ export class StarshipsService {
     @InjectRepository(Starship)
     private starshipRepository: Repository<Starship>,
     // private vehicleRepository: Repository<Vehicle>,
-    private filmService: FilmsService,
+    @Inject(forwardRef(() => FilmsService)) private filmService: FilmsService,
+    @Inject(forwardRef(() => PeopleService))
     private peopleService: PeopleService,
   ) {}
 

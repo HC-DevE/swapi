@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilmsService } from 'src/films/services/films.service';
@@ -17,9 +19,11 @@ import { Repository } from 'typeorm';
 export class PlanetsService {
   constructor(
     @InjectRepository(Planet)
-    private planetRepository: Repository<Planet>,
-    private peopleService: PeopleService,
-    private filmService: FilmsService,
+    private readonly planetRepository: Repository<Planet>,
+    @Inject(forwardRef(() => PeopleService))
+    private readonly peopleService: PeopleService,
+    @Inject(forwardRef(() => FilmsService))
+    private readonly filmService: FilmsService,
   ) {}
 
   async findAll() {

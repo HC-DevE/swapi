@@ -3,10 +3,6 @@
 // Path: src/people/dto/create-people.dto.ts
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Film } from 'src/films/entities/film.entity';
-import { Planet } from 'src/planets/entities/planet.entity';
-import { Specie } from 'src/species/entities/species.entity';
-import { Vehicle } from 'src/vehicules/entities/vehicule.entity';
 
 export class CreatePeopleDto {
   @ApiProperty()
@@ -49,21 +45,25 @@ export class CreatePeopleDto {
   @IsNotEmpty()
   readonly gender: string;
 
-  @ApiProperty({ type: () => [Planet] })
+  @ApiProperty({ type: () => [Number] })
   @IsOptional()
-  readonly homeworld: Planet;
+  readonly homeworld?: number;
 
-  @ApiProperty({ type: () => [Film] })
+  @ApiProperty({ type: () => [Number] })
   @IsOptional()
-  readonly films: Film[];
+  readonly films?: number[];
 
-  @ApiProperty({ type: () => [Specie] })
+  @ApiProperty({ type: () => [Number] })
   @IsOptional()
-  readonly species: Specie[];
+  readonly species?: number[];
 
-  @ApiProperty({ type: () => [Vehicle] })
+  @ApiProperty({ type: () => [Number] })
   @IsOptional()
-  readonly vehicles: Vehicle[];
+  readonly vehicles?: number[];
+
+  @ApiProperty({ type: () => [Number] })
+  @IsOptional()
+  public starships?: number[];
 }
 
 // update-people.dto.ts

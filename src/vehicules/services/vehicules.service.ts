@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Vehicle } from '../entities/vehicule.entity';
@@ -11,10 +16,11 @@ import { PeopleService } from 'src/people/services/people.service';
 @Injectable()
 export class VehiclesService {
   constructor(
-    @InjectRepository(Vehicle)
-    private vehicleRepository: Repository<Vehicle>,
-    private filmsService: FilmsService,
-    private peopleService: PeopleService,
+    @InjectRepository(Vehicle) private vehicleRepository: Repository<Vehicle>,
+    @Inject(forwardRef(() => FilmsService))
+    private readonly filmsService: FilmsService,
+    @Inject(forwardRef(() => PeopleService))
+    private readonly peopleService: PeopleService,
   ) {}
 
   async findAll() {
@@ -29,6 +35,11 @@ export class VehiclesService {
     return await this.vehicleRepository.findOne(vehiculeId, {
       relations: ['films', 'pilots'],
     });
+  }
+
+  //find all by ids
+  async findAllByIds(ids: number[]) {
+    return await this.vehicleRepository.findByIds(ids);
   }
 
   //create one
